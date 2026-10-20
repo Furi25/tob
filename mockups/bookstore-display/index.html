@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The bookshop</title><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="inspection.css"><script src="app.js" defer></script></head>
+<body>
+<header><a class="brand" href="#home">the bookshop</a><div class="controls"><button type="button" id="fit-scene" aria-pressed="false">Full scene</button><button type="button" id="markers" aria-pressed="false">Show mapping</button><label class="file-label">Choose artwork<input type="file" id="artwork" accept="image/png,image/jpeg,image/webp,.jfif"></label></div></header>
+<main id="viewport" aria-label="Interactive bookstore"><div class="bookshop-container" id="shop">
+<img class="bookshop-bg" id="background" src="../../docs/bookstore%20display.png" alt="Sunlit pixel-art bookstore with a reading chair, sleeping cat and book displays.">
+<ol id="hotspots" aria-label="Explore 25 books">
+<li><a href="#book/1" data-author="J.R.R. Tolkien">The Hobbit</a></li>
+<li><a href="#book/2" data-author="George Orwell">1984</a></li>
+<li><a href="#book/3" data-author="Ray Bradbury">Fahrenheit 451</a></li>
+<li><a href="#book/4" data-author="Aldous Huxley">Brave New World</a></li>
+<li><a href="#book/5" data-author="George Orwell">Animal Farm</a></li>
+<li><a href="#book/6" data-author="F. Scott Fitzgerald">The Great Gatsby</a></li>
+<li><a href="#book/7" data-author="Harper Lee">To Kill a Mockingbird</a></li>
+<li><a href="#book/8" data-author="J.D. Salinger">The Catcher in the Rye</a></li>
+<li><a href="#book/9" data-author="Homer">The Odyssey</a></li>
+<li><a href="#book/10" data-author="Neil Gaiman">Stardust</a></li>
+<li><a href="#book/11" data-author="Erin Morgenstern">The Night Circus</a></li>
+<li><a href="#book/12" data-author="Mary Shelley">Frankenstein</a></li>
+<li><a href="#book/13" data-author="Bram Stoker">Dracula</a></li>
+<li><a href="#book/14" data-author="Charlotte Brontë">Jane Eyre</a></li>
+<li><a href="#book/15" data-author="Emily Brontë">Wuthering Heights</a></li>
+<li><a href="#book/16" data-author="Frank Herbert">Dune</a></li>
+<li><a href="#book/17" data-author="Isaac Asimov">Foundation</a></li>
+<li><a href="#book/18" data-author="Dan Simmons">Hyperion</a></li>
+<li><a href="#book/19" data-author="William Gibson">Neuromancer</a></li>
+<li><a href="#book/20" data-author="Patrick Rothfuss">The Name of the Wind</a></li>
+<li><a href="#book/21" data-author="George R.R. Martin">A Game of Thrones</a></li>
+<li><a href="#book/22" data-author="Ursula K. Le Guin">A Wizard of Earthsea</a></li>
+<li><a href="#book/23" data-author="Neil Gaiman &amp; Terry Pratchett">Good Omens</a></li>
+<li><a href="#book/24" data-author="Carlos Ruiz Zafón">The Shadow of the Wind</a></li>
+<li><a href="#book/25" data-author="Erin Morgenstern">The Starless Sea</a></li>
+</ol></div><p id="image-error" hidden role="status">Artwork could not load. Use Choose artwork to select the PNG.</p></main>
+<div class="book-tooltip" id="tooltip" hidden aria-hidden="true"><strong id="tooltip-title"></strong><span id="tooltip-author"></span></div>
+<aside class="statusbar"><span id="status" role="status">Follow the little golden sparks.</span><button type="button" id="open-index">All 25 books ↗</button></aside>
+<dialog id="index-dialog" aria-labelledby="index-title"><div class="dialog-head"><h2 id="index-title">The display index</h2><button type="button" data-close>Close ×</button></div><ol id="index-list"></ol></dialog>
+<dialog id="book-dialog" aria-labelledby="book-title">
+	<div class="book-inspection">
+		<div class="inspection-toolbar"><span>A LITTLE CLOSER</span><button type="button" data-close autofocus>Return to the shelf <span aria-hidden="true">×</span></button></div>
+		<div class="inspection-layout">
+			<div class="cover-stage">
+				<div class="pixel-book" id="pixel-book" role="img" aria-label="Illustrative placeholder book cover">
+					<div class="book-object"><canvas id="cover-art" width="96" height="144" aria-hidden="true"></canvas><div class="cover-lettering" aria-hidden="true"><span class="cover-edition">THE BOOKSHOP · SELECTED STORIES</span><strong id="cover-title"></strong><span id="cover-author"></span></div><span class="cover-seal" aria-hidden="true">✦</span></div>
+				</div>
+				<p class="cover-caption">PIXEL COVER STUDY <span>Original placeholder artwork</span></p>
+			</div>
+			<div class="inspection-copy"><span id="record"></span><h2 id="book-title"></h2><p id="book-author"></p><div class="tabs" role="group" aria-label="Book information"><button type="button" data-section="about" aria-pressed="true">The story</button><button type="button" data-section="why" aria-pressed="false">Why it matters</button><button type="button" data-section="author" aria-pressed="false">The author</button></div><p id="book-copy"></p><button type="button" id="purchase" aria-expanded="false" aria-controls="affiliate-note">Find a copy ↗</button><p id="affiliate-note" hidden>No retailer is connected. A future affiliate link may earn a commission at no extra cost to you.</p><p class="inspection-hint">A story worth taking off the shelf.</p></div>
+		</div>
+	</div>
+</dialog>
+<noscript><p class="no-script">Enable JavaScript to explore the mapped books.</p></noscript>
+</body></html>

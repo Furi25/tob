@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "title": "Top-selling books of 2026 (US print, Q1 ranking)",
+    "ranking_source": "Circana BookScan via Publishers Weekly, Q1 2026 (quarter ending March 28, 2026)",
+    "generated": "2026-10-20",
+    "notes": [
+      "Sales figures are approximate US print units for Q1 2026 only.",
+      "Theo of Golden total sales vary widely by source; 1.8 million print copies through Oct 3, 2026 per Publishers Weekly."
+    ]
+  },
+  "books": [
+    {
+      "rank": 1,
+      "title": "Theo of Golden",
+      "author": "Allen Levi",
+      "genre": "Contemporary fiction",
+      "publisher": "Atria Books (Simon & Schuster)",
+      "first_published": "2023 (self-published); 2025 (Atria edition, Oct 3, 2025)",
+      "q1_2026_units_approx": 470277,
+      "about": "A mysterious elderly stranger, Theo, arrives in the small Southern city of Golden, Georgia. He finds 92 pencil portraits hanging in a coffee shop and begins buying them to return to the people they depict. Through his encounters he forms deep friendships, and his own tragic past and reason for coming to Golden gradually emerge. A quiet, character-driven story about generosity and kindness with a Christian undercurrent.",
+      "why_popular": [
+        "Self-published on Amazon in fall 2023: about 3,000 copies sold in 2023 and 24,000 in 2024, then sales exploded in 2025 and Atria bought the rights.",
+        "Grew almost entirely through word of mouth.",
+        "Oprah Winfrey chose a passage as her favorite quote for 2026.",
+        "Seen as a hopeful antidote to cynical times; no graphic sex or violence; crosses over from Christian readers to a general audience.",
+        "Some reviewers find it sentimental or melodramatic.",
+        "About 1.8 million print copies sold in the US through Oct 3, 2026 (Publishers Weekly)."
+      ],
+      "author_bio": "Allen Levi is an attorney, judge and singer-songwriter who lives on family land near a small town in middle Georgia. Theo of Golden is his first novel; he was 69 when he self-published it. A sequel, Ellen of Golden, is in progress.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Theo_of_Golden",
+        "https://3quarksdaily.com/?p=294475",
+        "https://www.publishersweekly.com/pw/by-topic/industry-news/financial-reporting/article/101512-print-sales-stay-flat-through-september.html"
+      ]
+    },
+    {
+      "rank": 2,
+      "title": "The Let Them Theory",
+      "author": "Mel Robbins",
+      "genre": "Self-help (nonfiction)",
+      "publisher": "Hay House",
+      "first_published": "2024-12-24",
+      "q1_2026_units_approx": 359915,
+      "about": "A self-help book built on one idea: stop trying to control other people's opinions and behavior. When someone does something that bothers you, you say \"let them\", then add \"let me\" and focus on what you can control. Robbins applies the idea across eight areas of life, using personal stories and expert input. The idea took root while she was helping her son get ready for prom.",
+      "why_popular": [
+        "Two memorable words that are easy to apply and share.",
+        "Robbins already had a huge audience through her podcast and about 8.2 million Instagram followers.",
+        "Oprah Winfrey called it one of the best self-help books she had read.",
+        "Top-selling print book of 2025 with about 2.8 million copies (Publishers Weekly).",
+        "Publisher claims over 11 million copies sold across all formats."
+      ],
+      "author_bio": "Mel Robbins is an American author, podcast host and lawyer who rose to fame with her TEDx talk \"How to Stop Screwing Yourself Over\". Her earlier books include The 5 Second Rule. She has hosted The Mel Robbins Podcast since 2022. Newer editions list Sawyer Robbins as co-author.",
+      "sources": [
+        "https://www.aarp.org/entertainment/books/mel-robbins-let-them/",
+        "https://www.penguinrandomhouse.com/books/743134/the-let-them-theory-by-mel-robbins/",
+        "https://www.publishersweekly.com/pw/by-topic/industry-news/financial-reporting/article/99417-print-book-sales-rose-slightly-in-2025.html"
+      ]
+    },
+    {
+      "rank": 3,
+      "title": "Dear Debbie",
+      "author": "Freida McFadden",
+      "genre": "Psychological thriller",
+      "publisher": "Poisoned Pen Press (Sourcebooks)",
+      "first_published": "2026-01-27",
+      "q1_2026_units_approx": 332926,
+      "about": "Debbie Mullen writes an advice column for New England wives and has heard from many women who are ignored, belittled or abused by their husbands. Her own life is spiraling: she has lost her job, her teenage daughters are acting strangely, and a tracking app suggests her husband is keeping secrets. A dark, subversive revenge thriller marketed as a \"good for her\" story about women taking justice into their own hands.",
+      "why_popular": [
+        "McFadden's proven formula of fast, twist-driven psychological thrillers.",
+        "Reached number one on the New York Times fiction list for the week of Feb 15, 2026.",
+        "Her rise came through BookTok and Kindle Unlimited; The Housemaid was adapted into a film with Amanda Seyfried and Sydney Sweeney.",
+        "Critics note characters are not always believable or likable, but the twists keep the plot moving.",
+        "She releases four to five books a year."
+      ],
+      "author_bio": "Freida McFadden is a pen name. She is a physician in the Boston area specializing in brain injuries, has won the International Thriller Writer Award and the Goodreads Choice Award for Best Thriller, and released her first book on Amazon in 2013. She avoids interviews and protects her privacy.",
+      "sources": [
+        "https://queenslibrary.org/book/Dear-Debbie/1523993",
+        "https://bookriot.com/?p=632525",
+        "https://en.wikipedia.org/wiki/List_of_The_New_York_Times_number-one_books_of_2026"
+      ]
+    },
+    {
+      "rank": 4,
+      "title": "Project Hail Mary",
+      "author": "Andy Weir",
+      "genre": "Hard science fiction",
+      "publisher": "Ballantine Books",
+      "first_published": "2021-05-04",
+      "q1_2026_units_approx": 315824,
+      "about": "Ryland Grace, a middle school science teacher, wakes from a years-long coma aboard a spaceship with no memory of how or why he is 12 light years from Earth. He must figure out how to stop Astrophage, a microscopic organism dimming the sun. He befriends Rocky, a spider-like alien who breathes ammonia, and the story is as much about cross-species friendship as it is about science and problem-solving.",
+      "why_popular": [
+        "Real-science problem-solving combined with humor and an unlikely friendship.",
+        "Debuted at number one on the New York Times list; Hugo Award finalist and winner of the Goodreads Choice Award for Best Science Fiction.",
+        "The 2026 film (released March 20, 2026), starring Ryan Gosling and directed by Phil Lord and Christopher Miller, boosted sales.",
+        "Science fiction print sales rose 93.1% in the first nine months of 2026, led by this book (Publishers Weekly)."
+      ],
+      "author_bio": "Andy Weir is an American author and former software engineer. His novel The Martian began as a free serial on his website and was then self-published as a $0.99 Kindle ebook. Project Hail Mary is his third novel, after The Martian (2011) and Artemis (2017).",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Project_Hail_Mary",
+        "https://newbooksnetwork.com/project-hail-mary",
+        "https://www.publishersweekly.com/pw/by-topic/industry-news/financial-reporting/article/101512-print-sales-stay-flat-through-september.html"
+      ]
+    }
+  ]
+}

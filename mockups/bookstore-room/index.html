@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Little Bookshop — single-screen study</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="room" aria-hidden="true"><img id="reference" alt="" hidden><div class="ceiling"></div><div class="window"></div><div class="lamp lamp-one"></div><div class="lamp lamp-two"></div><div class="counter"></div></div>
+  <a class="logo" href="#home">the little bookshop<span>TWENTY-FIVE WORLDS. ONE QUIET ROOM.</span></a>
+  <div class="tools"><label class="image-picker">Load bookstore image<input type="file" id="image-input" accept="image/jpeg,image/png,image/webp,.jfif"></label><button type="button" id="clear-image" hidden>Clear image</button><button type="button" id="toggle-books" aria-pressed="true">Books on</button></div>
+  <main aria-labelledby="page-title">
+    <h1 class="sr-only" id="page-title">Twenty-five books in a single-screen bookshop</h1>
+    <ol class="shelves" id="books">
+      <li><a href="#book/fourth-wing" data-author="Rebecca Yarros" data-kind="Fantasy / Romance" data-hook="Dragons, danger, and a bond worth risking everything for.">Fourth Wing</a></li>
+      <li><a href="#book/onyx-storm" data-author="Rebecca Yarros" data-kind="Fantasy / Romance" data-hook="Beyond the walls, the storm is only beginning.">Onyx Storm</a></li>
+      <li><a href="#book/the-women" data-author="Kristin Hannah" data-kind="Historical fiction" data-hook="The women history left out. The courage it couldn't erase.">The Women</a></li>
+      <li><a href="#book/james" data-author="Percival Everett" data-kind="Literary fiction" data-hook="A familiar river. A radically different voice.">James</a></li>
+      <li><a href="#book/the-god-of-the-woods" data-author="Liz Moore" data-kind="Mystery" data-hook="A missing girl. A summer camp. A family full of secrets.">The God of the Woods</a></li>
+      <li><a href="#book/intermezzo" data-author="Sally Rooney" data-kind="Literary fiction" data-hook="Two brothers finding their way through grief and love.">Intermezzo</a></li>
+      <li><a href="#book/the-let-them-theory" data-author="Mel Robbins" data-kind="Personal growth" data-hook="A small shift in how you hold what you can't control.">The Let Them Theory</a></li>
+      <li><a href="#book/atmosphere" data-author="Taylor Jenkins Reid" data-kind="Historical romance" data-hook="A love story with its eyes on the stars.">Atmosphere</a></li>
+      <li><a href="#book/great-big-beautiful-life" data-author="Emily Henry" data-kind="Romance" data-hook="Two writers. One extraordinary life. More than one story.">Great Big Beautiful Life</a></li>
+      <li><a href="#book/sunrise-on-the-reaping" data-author="Suzanne Collins" data-kind="Dystopian fiction" data-hook="Before the rebellion, another story was being written.">Sunrise on the Reaping</a></li>
+      <li><a href="#book/the-housemaid" data-author="Freida McFadden" data-kind="Thriller" data-hook="The perfect job has a very imperfect secret.">The Housemaid</a></li>
+      <li><a href="#book/iron-flame" data-author="Rebecca Yarros" data-kind="Fantasy / Romance" data-hook="Surviving the first year was only the beginning.">Iron Flame</a></li>
+      <li><a href="#book/the-anxious-generation" data-author="Jonathan Haidt" data-kind="Society / Psychology" data-hook="A debate about growing up in a phone-shaped world.">The Anxious Generation</a></li>
+      <li><a href="#book/atomic-habits" data-author="James Clear" data-kind="Personal growth" data-hook="Small changes, made often, can change the picture.">Atomic Habits</a></li>
+      <li><a href="#book/the-thursday-murder-club" data-author="Richard Osman" data-kind="Mystery" data-hook="Four unlikely detectives. One very real mystery.">The Thursday Murder Club</a></li>
+      <li><a href="#book/tomorrow-and-tomorrow-and-tomorrow" data-author="Gabrielle Zevin" data-kind="Literary fiction" data-hook="A friendship built one imaginary world at a time.">Tomorrow, and Tomorrow, and Tomorrow</a></li>
+      <li><a href="#book/yellowface" data-author="R. F. Kuang" data-kind="Literary satire" data-hook="A stolen manuscript. A borrowed life. A very public reckoning.">Yellowface</a></li>
+      <li><a href="#book/the-heaven-and-earth-grocery-store" data-author="James McBride" data-kind="Historical fiction" data-hook="A neighborhood, a secret, and the people who hold it together.">The Heaven &amp; Earth Grocery Store</a></li>
+      <li><a href="#book/remarkably-bright-creatures" data-author="Shelby Van Pelt" data-kind="Contemporary fiction" data-hook="An unlikely friendship. An ocean of second chances.">Remarkably Bright Creatures</a></li>
+      <li><a href="#book/the-covenant-of-water" data-author="Abraham Verghese" data-kind="Historical fiction" data-hook="Three generations bound by water, medicine, and memory.">The Covenant of Water</a></li>
+      <li><a href="#book/beautiful-ugly" data-author="Alice Feeney" data-kind="Thriller" data-hook="An isolated island. A missing wife. Nothing quite as it seems.">Beautiful Ugly</a></li>
+      <li><a href="#book/the-wedding-people" data-author="Alison Espach" data-kind="Contemporary fiction" data-hook="The wrong guest might be exactly the right person.">The Wedding People</a></li>
+      <li><a href="#book/all-fours" data-author="Miranda July" data-kind="Literary fiction" data-hook="A detour that becomes a whole new way of living.">All Fours</a></li>
+      <li><a href="#book/the-creative-act" data-author="Rick Rubin" data-kind="Creativity" data-hook="Less a set of instructions. More a way of paying attention.">The Creative Act</a></li>
+      <li><a href="#book/braiding-sweetgrass" data-author="Robin Wall Kimmerer" data-kind="Nature / Essays" data-hook="What changes when we learn to listen to the living world?">Braiding Sweetgrass</a></li>
+    </ol>
+  </main>
+  <aside class="caption"><span id="caption-title">Stay a little. Find something.</span><span id="caption-note">Hover or focus a book · Click to open · Sample collection</span></aside>
+  <p class="image-status" id="image-status" role="status">Load your bookstore reference to try it as the room backdrop. The image stays on this device.</p>
+  <dialog id="detail" aria-labelledby="detail-title"><div class="detail-toolbar"><span id="detail-number"></span><button type="button" id="close">Back to the room ×</button></div><div class="detail-body"><div class="detail-jacket" id="detail-jacket" aria-hidden="true"></div><div class="detail-copy"><span class="eyebrow" id="detail-kind"></span><h2 id="detail-title"></h2><p id="detail-author"></p><p id="detail-hook"></p><div class="detail-tabs" role="group" aria-label="Book information"><button type="button" data-tab="about" aria-pressed="true">The story</button><button type="button" data-tab="context" aria-pressed="false">Why read it</button><button type="button" data-tab="author" aria-pressed="false">The author</button></div><p class="detail-text" id="detail-text"></p><button type="button" id="buy">Find a copy ↗</button><p id="purchase" hidden>No retailer is connected. A future affiliate link may earn a commission at no extra cost to you.</p></div></div></dialog>
+</body>
+</html>

@@ -1,0 +1,99 @@
+/* Viewport-sized discovery room. Detail typography stays in styles.css. */
+:root { --shelf-edge: #c7b393; --shelf-top: #e4d5bd; --shelf-shadow: #65523a29; }
+body { background-image: radial-gradient(ellipse at 50% 30%, #ffffff70, transparent 70%); }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.room-logo { position: absolute; left: 4vw; top: 22px; z-index: 5; font-size: 19px; }
+.room-logo .brand-mark { width: 28px; height: 31px; font-size: 26px; }
+.view-picker { position: absolute; top: 24px; right: 4vw; display: flex; gap: 3px; z-index: 5; }
+.view-picker button { background: none; border: 1px solid transparent; border-radius: 25px; color: var(--muted); padding: 5px 13px; font-size: 11px; cursor: pointer; }
+.view-picker button:hover { color: var(--ink); }
+.view-picker button[aria-pressed="true"] { border-color: var(--line); background: var(--surface); color: var(--ink); }
+body:not(.is-detail) main { width: 100%; max-width: none; padding: 0 5vw; }
+#home-view { height: 100vh; height: 100dvh; min-height: 560px; padding: 80px 0 30px; display: flex; flex-direction: column; }
+.collection { padding: 0; flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.room-hint { flex: none; margin: 0 0 18px; text-align: center; font: italic 16px var(--display); color: var(--muted); }
+.room-hint span { font: 10px var(--ui); margin-left: 9px; }
+.sample-note { flex: none; margin: 18px 0 0; text-align: center; font-size: 9px; letter-spacing: .5px; color: var(--muted); }
+.book-grid { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); grid-template-rows: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 5vh, 48px) 12px; padding: 15px 12px 12px; }
+.book-grid > li { position: relative; min-height: 0; perspective: 800px; }
+.book-grid > li:nth-child(19) { grid-column: 2; }
+.book-grid > li > a { position: relative; height: 100%; display: flex; align-items: center; justify-content: end; flex-direction: column; }
+.book-grid > li:hover, .book-grid > li:focus-within { z-index: 8; }
+.jacket-stage { width: 100%; height: 100%; margin: 0; display: flex; align-items: end; justify-content: center; overflow: visible; background: none; }
+.jacket-stage::before { top: auto; bottom: -24px; left: 50%; transform: translateX(-50%); color: var(--muted); font-size: 8px; z-index: 1; }
+.jacket-stage::after { content: ""; opacity: 1; position: absolute; height: 10px; bottom: -10px; left: -6px; right: -6px; background: linear-gradient(var(--shelf-top) 0 35%, var(--shelf-edge) 40% 100%); box-shadow: 0 9px 12px var(--shelf-shadow); transform: none; transition: none; }
+.jacket-stage .cover { flex: none; height: 92%; width: auto; max-width: 100%; aspect-ratio: 2 / 3; padding: 10% 8%; transform: rotateY(-17deg); transform-origin: center bottom; transition: transform 320ms cubic-bezier(.2,.8,.2,1), box-shadow 320ms; container-type: inline-size; }
+.jacket-stage .cover-title { font-size: clamp(11px, 20cqi, 25px); letter-spacing: -.5px; }
+.jacket-stage .cover--long .cover-title { font-size: clamp(10px, 15cqi, 19px); }
+.jacket-stage .cover-eyebrow { font-size: clamp(3px, 4cqi, 6px); letter-spacing: 1px; }
+.jacket-stage .cover-author { font-size: clamp(4px, 5cqi, 7px); letter-spacing: .8px; }
+.jacket-stage .cover-symbol { font-size: clamp(15px, 28cqi, 37px); }
+.book-grid > li:nth-child(4n + 2) .cover { height: 85%; }
+.book-grid > li:nth-child(5n) .cover { transform: rotateY(-17deg) rotateZ(3deg); }
+.book-grid a:hover .cover, .book-grid a:focus-visible .cover { transform: translateY(-13px) rotateY(0) scale(1.18); box-shadow: inset 5px 0 7px #0003, 12px 22px 22px #0004; }
+.book-info { position: absolute; top: calc(100% + 25px); left: 50%; width: 235px; transform: translate(-50%, 5px); background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 5px; padding: 13px 15px; box-shadow: 0 10px 25px #0002; opacity: 0; visibility: hidden; transition: opacity 160ms, transform 160ms, visibility 160ms; pointer-events: none; }
+.book-grid h3 { font-size: 17px; }
+.book-info .author { font-size: 11px; margin-bottom: 6px; }
+.book-info .hook { font-size: 11px; }
+.book-grid a:hover .book-info, .book-grid a:focus-visible .book-info { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.book-grid > li:nth-child(n + 19) .book-info { top: auto; bottom: calc(100% + 18px); }
+.book-grid > li:nth-child(9n + 1) .book-info { left: 0; transform: translate(0, 0); }
+.book-grid > li:nth-child(9n) .book-info { left: auto; right: 0; transform: translate(0, 0); }
+.book-spine { display: none; }
+.real-cover-image { display: none; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: var(--jacket); z-index: 2; }
+.show-real-covers .has-real-cover .real-cover-image { display: block; }
+.show-real-covers .has-real-cover::after { z-index: 3; inset: 0; border: none; opacity: 1; background: linear-gradient(90deg, #0004, transparent 7%, transparent 96%, #ffffff20); }
+.show-real-covers .has-real-cover > span { visibility: hidden; }
+/* Cover wall: the same collection becomes a gallery of small posters. */
+body[data-layout="gallery"] .jacket-stage::after { display: none; }
+body[data-layout="gallery"] .jacket-stage .cover { transform: none; height: 92%; box-shadow: 4px 7px 10px #0002; }
+body[data-layout="gallery"] .book-grid a:hover .cover,
+body[data-layout="gallery"] .book-grid a:focus-visible .cover { transform: translateY(-6px) scale(1.14); }
+/* Spines: a quiet library from a distance, a cover revealed on approach. */
+body[data-layout="spines"] .book-grid { grid-template-columns: repeat(13, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 65px 9px; padding: 35px 3% 25px; }
+body[data-layout="spines"] .book-grid > li:nth-child(19) { grid-column: auto; }
+body[data-layout="spines"] .book-spine { position: absolute; bottom: 0; width: 86%; height: 90%; display: flex; align-items: center; justify-content: space-between; padding: 14px 8px; border-radius: 3px 4px 0 0; background: var(--jacket); color: var(--jacket-ink); box-shadow: inset 4px 0 5px #0004, inset -2px 0 #ffffff30, 4px 0 5px #0002; writing-mode: vertical-rl; transition: opacity 200ms, transform 320ms; }
+body[data-layout="spines"] .book-spine > span { font: 600 clamp(11px, 1.2vw, 17px)/1.15 var(--display); }
+body[data-layout="spines"] .book-spine small { font-size: 8px; letter-spacing: .6px; }
+body[data-layout="spines"] .jacket-stage .cover { opacity: 0; position: absolute; max-width: none; height: 92%; transform: rotateY(-70deg) scale(.8); pointer-events: none; }
+body[data-layout="spines"] .book-grid a:hover .cover,
+body[data-layout="spines"] .book-grid a:focus-visible .cover { opacity: 1; transform: translateY(-12px) rotateY(-5deg); z-index: 2; }
+body[data-layout="spines"] .book-grid a:hover .book-spine,
+body[data-layout="spines"] .book-grid a:focus-visible .book-spine { opacity: 0; transform: translateY(-10px); }
+body[data-layout="spines"] .book-grid > li:nth-child(n + 14) .book-info { top: auto; bottom: calc(100% + 15px); }
+body[data-layout="spines"] .book-grid > li:nth-child(13n + 1) .book-info { left: 0; transform: none; }
+body[data-layout="spines"] .book-grid > li:nth-child(13n) .book-info { left: auto; right: 0; transform: none; }
+body.is-detail { background-image: none; }
+body.is-detail main { padding-top: 70px; }
+/* At narrow widths keep all 25 reachable; no hover is needed to open a book. */
+@media (max-width: 760px) {
+  .room-logo { top: 17px; font-size: 16px; }
+  .room-logo > span:last-child { display: none; }
+  .view-picker { top: 18px; }
+  .view-picker button { padding: 5px 9px; font-size: 10px; }
+  #home-view { padding-top: 72px; min-height: 740px; }
+  .room-hint { font-size: 14px; }
+  .room-hint span { display: none; }
+  .book-grid, body[data-layout="spines"] .book-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); grid-template-rows: repeat(5, minmax(0, 1fr)); gap: 27px 8px; padding: 8px 4px 12px; }
+  .book-grid > li:nth-child(19) { grid-column: auto; }
+  .book-info { width: 190px; }
+  .book-grid > li:nth-child(n) .book-info { left: 50%; right: auto; top: calc(100% + 25px); bottom: auto; transform: translateX(-50%); }
+  .book-grid > li:nth-child(n + 16) .book-info { top: auto; bottom: calc(100% + 12px); }
+  .book-grid > li:nth-child(5n + 1) .book-info { left: 0; transform: none; }
+  .book-grid > li:nth-child(5n) .book-info { left: auto; right: 0; transform: none; }
+  body[data-layout="spines"] .book-spine > span { font-size: 10px; }
+  body[data-layout="spines"] .book-spine small { display: none; }
+  .sample-note { font-size: 8px; }
+}
+@media (hover: none) {
+  .book-grid a:hover .book-info { opacity: 0; visibility: hidden; }
+  .book-grid a:focus-visible .book-info { opacity: 1; visibility: visible; }
+}
+@media (prefers-color-scheme: dark) {
+  :root { --shelf-edge: #554c3d; --shelf-top: #71634d; --shelf-shadow: #00000060; }
+  body { background-image: radial-gradient(ellipse at 50% 30%, #ffffff06, transparent 70%); }
+  .jacket-stage { background: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0ms !important; animation-duration: 0ms !important; }
+}
