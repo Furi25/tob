@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Lanternwood — Tree of Books</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <canvas id="landscape" aria-hidden="true"></canvas>
+  <div class="veil" aria-hidden="true"></div>
+  <header class="masthead">
+    <a class="wordmark" href="#/shelf/root"><span class="sigil" aria-hidden="true">✣</span> tree of books<span class="edition">a small world of reading</span></a>
+    <nav aria-label="Appearance">
+      <a class="original" href="../branching/index.html">Original branching study</a>
+      <button id="theme" type="button">Switch appearance</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro" aria-labelledby="heading">
+      <div>
+        <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> A library, after the world goes quiet</p>
+        <h1 id="heading">Follow a branch.<br><em>Find somewhere to stay.</em></h1>
+        <p class="intro-copy">Some stories feel like a light left on in the woods.<br>Wander a little. See what finds you.</p>
+      </div>
+      <div class="field-note"><span class="note-number">01 / LANTERNWOOD</span><p>A little gloom.<br>A little glow.<br>Room to get lost.</p><span class="note-line"></span></div>
+    </section>
+
+    <section class="library" aria-label="Your branching library">
+      <div class="map-heading">
+        <div><span class="eyebrow">Your reading landscape</span><p id="scene-caption">Fiction / a lantern in the pines</p></div>
+        <div class="map-tools">
+          <button id="home" type="button">Return to clearing</button>
+          <label><input id="motion" type="checkbox"> Stillness</label>
+          <label><input id="weather" type="checkbox" checked> Distant lightning</label>
+        </div>
+      </div>
+
+      <div class="workspace">
+        <div class="map" id="map" tabindex="0" aria-label="Branching shelves. Scroll to explore; arrow keys navigate links.">
+          <div class="stage" id="stage">
+            <svg id="wires" aria-hidden="true"></svg>
+            <ul class="tree" id="tree">
+              <li data-shelf="root" data-open>
+                <div class="twig root"><a href="#/shelf/root"><span class="node-kicker">THE CLEARING</span>Tree of Books<small>4 paths into the stacks</small></a></div>
+                <ul>
+                  <li data-shelf="fiction" data-open>
+                    <div class="twig"><a href="#/shelf/fiction">Fiction<small>Lives you haven't lived</small></a></div>
+                    <ul>
+                      <li data-shelf="novels">
+                        <div class="twig"><a href="#/shelf/novels">Novels<small>8 books / take the long way</small></a></div>
+                        <ul>
+                          <li data-book-id="middlemarch"><div class="twig book"><a href="#/book/middlemarch">Middlemarch<small>George Eliot · 1872</small></a></div></li>
+                          <li data-book-id="remains-of-the-day"><div class="twig book"><a href="#/book/remains-of-the-day">The Remains of the Day<small>Kazuo Ishiguro · 1989</small></a></div></li>
+                          <li data-book-id="seven-killings"><div class="twig book"><a href="#/book/seven-killings">A Brief History of Seven Killings<small>Marlon James · 2014</small></a></div></li>
+                          <li data-book-id="unbearable-lightness"><div class="twig book"><a href="#/book/unbearable-lightness">The Unbearable Lightness of Being<small>Milan Kundera · 1984</small></a></div></li>
+                          <li data-book-id="wolf-hall"><div class="twig book"><a href="#/book/wolf-hall">Wolf Hall<small>Hilary Mantel · 2009</small></a></div></li>
+                          <li data-book-id="beloved"><div class="twig book"><a href="#/book/beloved">Beloved<small>Toni Morrison · 1987</small></a></div></li>
+                          <li data-book-id="gilead"><div class="twig book"><a href="#/book/gilead">Gilead<small>Marilynne Robinson · 2004</small></a></div></li>
+                          <li data-book-id="overstory"><div class="twig book"><a href="#/book/overstory">The Overstory<small>Richard Powers · 2018</small><span class="shared">2 shelves · also Science</span></a></div></li>
+                        </ul>
+                      </li>
+                      <li data-shelf="short-stories">
+                        <div class="twig"><a href="#/shelf/short-stories">Short Stories<small>1 book / a brief escape</small></a></div>
+                        <ul><li data-book-id="dubliners"><div class="twig book"><a href="#/book/dubliners">Dubliners<small>James Joyce · 1914</small></a></div></li></ul>
+                      </li>
+                      <li data-shelf="speculative" data-open>
+                        <div class="twig"><a href="#/shelf/speculative">Speculative<small>Beyond the familiar</small></a></div>
+                        <ul>
+                          <li data-book-id="translation-state"><div class="twig book selected"><a href="#/book/translation-state">Translation State<small>Ann Leckie · 2023</small></a></div></li>
+                          <li data-shelf="deep-cuts">
+                            <div class="twig"><a href="#/shelf/deep-cuts">Deep Cuts<small>A path less travelled</small></a></div>
+                            <ul>
+                              <li data-shelf="forgotten-imprints">
+                                <div class="twig"><a href="#/shelf/forgotten-imprints">Forgotten Imprints</a></div>
+                                <ul>
+                                  <li data-shelf="very-deep">
+                                    <div class="twig"><a href="#/shelf/very-deep">Very Deep</a></div>
+                                    <ul><li data-book-id="autobiography-of-red"><div class="twig book"><a href="#/book/autobiography-of-red">The Autobiography of Red: A Novel in Verse, and Other Long-Titled Works That Will Not Fit On One Line<small>Anne Carson · 1998</small></a></div></li></ul>
+                                  </li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li data-shelf="non-fiction">
+                    <div class="twig"><a href="#/shelf/non-fiction">Non-fiction<small>The wonder of what is</small></a></div>
+                    <ul>
+                      <li data-shelf="history">
+                        <div class="twig"><a href="#/shelf/history">History<small>2 books</small></a></div>
+                        <ul>
+                          <li data-book-id="silk-roads"><div class="twig book"><a href="#/book/silk-roads">The Silk Roads<small>Peter Frankopan · 2015</small></a></div></li>
+                          <li data-book-id="spqr"><div class="twig book"><a href="#/book/spqr">SPQR<small>Mary Beard · 2015</small></a></div></li>
+                        </ul>
+                      </li>
+                      <li data-shelf="science">
+                        <div class="twig"><a href="#/shelf/science">Science<small>3 books</small></a></div>
+                        <ul>
+                          <li data-book-id="sixth-extinction"><div class="twig book"><a href="#/book/sixth-extinction">The Sixth Extinction<small>Elizabeth Kolbert · 2014</small></a></div></li>
+                          <li data-book-id="entangled-life"><div class="twig book"><a href="#/book/entangled-life">Entangled Life<small>Merlin Sheldrake · 2020</small></a></div></li>
+                          <li data-book-id="overstory"><div class="twig book"><a href="#/book/overstory">The Overstory<small>Richard Powers · 2018</small><span class="shared">2 shelves · also Fiction / Novels</span></a></div></li>
+                        </ul>
+                      </li>
+                      <li data-shelf="essays">
+                        <div class="twig"><a href="#/shelf/essays">Essays<small>1 book</small></a></div>
+                        <ul><li data-book-id="upstream"><div class="twig book"><a href="#/book/upstream">Upstream<small>Mary Oliver · 2016</small><span class="shared">2 shelves · also Poetry</span></a></div></li></ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li data-shelf="poetry">
+                    <div class="twig"><a href="#/shelf/poetry">Poetry<small>A slower kind of light</small></a></div>
+                    <ul>
+                      <li data-book-id="ariel"><div class="twig book"><a href="#/book/ariel">Ariel<small>Sylvia Plath · 1965</small></a></div></li>
+                      <li data-book-id="devotions"><div class="twig book"><a href="#/book/devotions">Devotions<small>Mary Oliver · 2017</small></a></div></li>
+                      <li data-book-id="upstream"><div class="twig book"><a href="#/book/upstream">Upstream<small>Mary Oliver · 2016</small><span class="shared">2 shelves · also Non-fiction / Essays</span></a></div></li>
+                    </ul>
+                  </li>
+                  <li data-shelf="unsorted">
+                    <div class="twig"><a href="#/shelf/unsorted">Unsorted<small>Space for a new beginning</small></a></div>
+                    <ul><li class="empty">Nothing planted here. Yet.<br><span>Your next discovery has a place.</span></li></ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <aside class="reading-note" aria-labelledby="note-title">
+          <p class="eyebrow">A light in the branches</p>
+          <div class="book-cover" aria-hidden="true"><span>T S</span><div class="cover-orbit"></div><span>ANN LECKIE</span></div>
+          <div class="note-copy">
+            <p class="eyebrow" id="note-shelf">FICTION / SPECULATIVE</p>
+            <h2 id="note-title">Translation State</h2>
+            <p id="note-author">Ann Leckie · 2023</p>
+            <p id="note-description">An unfamiliar world. A small, warm light. A good place to begin wandering.</p>
+            <a id="note-link" href="#/book/translation-state">Find it in the branches <span aria-hidden="true">↗</span></a>
+          </div>
+        </aside>
+      </div>
+      <div class="map-footer"><span><i aria-hidden="true"></i> Click a + to wander deeper. Select a genre to change the weather.</span><span>18 books · 4 paths · no hurry</span></div>
+    </section>
+  </main>
+  <footer class="page-footer"><span>Made for the beautifully unhurried.</span><span>DESIGN STUDY 04 <span aria-hidden="true">/</span> no real library data</span></footer>
+  <p class="sr-only" role="status" id="status"></p>
+</body>
+</html>

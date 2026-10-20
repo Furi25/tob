@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tree of Books — Geometry B: Horizontal Branching Tree</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">Geometry B</p>
+  <h1>Horizontal Branching Tree</h1>
+  <p class="blurb">Root on the left, growth to the right. Curved bark connectors join every parent to every child, so the shape of the library is the thing you read first.</p>
+</header>
+
+<nav class="statebar" aria-label="Review states">
+  <span class="statebar__label">Review states</span>
+  <button type="button" data-state="collapsed">Collapsed</button>
+  <button type="button" data-state="deep">Deep path</button>
+  <button type="button" data-state="empty">Empty branch</button>
+  <button type="button" data-state="twins">Multi-shelf</button>
+  <button type="button" data-state="all">Expand all</button>
+  <span class="statebar__sep" aria-hidden="true"></span>
+  <label class="toggle"><input type="checkbox" id="pathfocus" checked> Follow one path</label>
+  <label class="toggle"><input type="checkbox" id="crosslinks" checked> Draw cross-links</label>
+</nav>
+
+<main class="viewport" id="viewport" tabindex="-1">
+<div class="stage" id="stage">
+<svg class="wires" id="wires" aria-hidden="true" focusable="false"></svg>
+<ul class="tree" id="tree">
+  <li class="node node--shelf node--root" data-id="root" data-depth="0">
+    <div class="row">
+      <button class="twisty" type="button" aria-expanded="true" aria-controls="kids-root"><span class="twisty__glyph" aria-hidden="true"></span><span class="sr-only">Toggle Tree of Books</span></button>
+      <a class="label" href="#/shelf/root"><span class="title">Tree of Books</span><span class="meta">4 shelves</span></a>
+    </div>
+    <ul class="children" id="kids-root">
+
+      <li class="node node--shelf" data-id="fiction" data-depth="1">
+        <div class="row">
+          <button class="twisty" type="button" aria-expanded="false" aria-controls="kids-fiction"><span class="twisty__glyph" aria-hidden="true"></span><span class="sr-only">Toggle Fiction</span></button>
+          <a class="label" href="#/shelf/fiction"><span class="title">Fiction</span><span class="meta">3 shelves</span></a>
+        </div>
+        <ul class="children" id="kids-fiction" hidden>
+
+          <li class="node node--shelf" data-id="novels" data-depth="2">
+            <div class="row">
+              <button class="twisty" type="button" aria-expanded="false" aria-controls="kids-novels"><span class="twisty__glyph" aria-hidden="true"></span><span class="sr-only">Toggle Novels</span></button>
+              <a class="label" href="#/shelf/novels"><span class="title">Novels</span><span class="meta">8 books</span></a>
+            </div>
+            <ul class="children" id="kids-novels" hidden>
+              <li class="node node--book" data-id="middlemarch" data-book-id="middlemarch" data-depth="3">
+                <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+                  <a class="label" href="#/book/middlemarch"><span class="title">Middlemarch</span><span class="byline"><span class="author">George Eliot</span><span class="year">1872</span></span></a>
+                </div>
+              </li>
+              <li class="node node--book" data-id="remains-of-the-day" data-book-id="remains-of-the-day" data-depth="3">
+                <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+                  <a class="label" href="#/book/remains-of-the-day"><span class="title">The Remains of the Day</span><span class="byline"><span class="author">Kazuo Ishiguro</span><span class="year">1989</span></span></a>
+                </div>
+              </li>
+              <li class="node node--book" data-id="seven-killings" data-book-id="seven-killings" data-depth="3">
+                <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+                  <a class="label" href="#/book/seven-killings"><span class="title">A Brief History of Seven Killings</span><span class="byline"><span class="author">Marlon James</span><span class="year">2014</span></span></a>
+                </div>
+              </li>
+              <li class="node node--book" data-id="unbearable-lightness" data-book-id="unbearable-lightness" data-depth="3">
+                <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+                  <a class="label" href="#/book/unbearable-lightness"><span class="title">The Unbearable Lightness of Being</span><span class="byline"><span class="author">Milan Kundera</span><span class="year">1984</span></span></a>
+                </div>
+              </li>
+              <li class="node node--book" data-id="wolf-hall" data-book-id="wolf-hall" data-depth="3">
+                <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+                  <a class="label" href="#/book/wolf-hall"><span class="title">Wolf Hall</span><span class="byline"><span class="author">Hilary Mantel</span><span class="year">2009</span></span></a>
+                </div>
+              </li>
+              <li class="node node--book" data-id="beloved" data-book-id="beloved" data-depth="3">
+                <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+                  <a class="label" href="#/book/beloved"><span class="title">Beloved</span><span class="byline"><span class="author">Toni Morrison</span><span class="year">1987</span></span></a>
+                </div>
+              </li>
+              <li class="node node--book" data-id="gilead" data-book-id="gilead" data-depth="3">
+                <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+                  <a class="label" href="#/book/gilead"><span class="title">Gilead</span><span class="byline"><span class="author">Marilynne Robinson</span><span class="year">2004</span></span></a>
+                </div>
+              </li>
+              <li class="node node--book node--twinned" data-id="overstory" data-book-id="overstory" data-depth="3">
+                <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+                  <a class="label" href="#/book/overstory"><span class="title">The Overstory</span><span class="byline"><span class="author">Richard Powers</span><span class="year">2018</span><span class="elsewhere">also on Non&#8209;fiction&nbsp;› Science</span></span></a>
+                  <button class="twin" type="button" data-twin-of="overstory" aria-label="Shelved on 2 shelves. Go to the copy on Non-fiction, Science."><span aria-hidden="true">2</span></button>
+                </div>
+              </li>
+            </ul>
+          </li>
+
+          <li class="node node--shelf" data-id="short-stories" data-depth="2">
+            <div class="row">
+              <button class="twisty" type="button" aria-expanded="false" aria-controls="kids-short-stories"><span class="twisty__glyph" aria-hidden="true"></span><span class="sr-only">Toggle Short Stories</span></button>
+              <a class="label" href="#/shelf/short-stories"><span class="title">Short Stories</span><span class="meta">1 book</span></a>
+            </div>
+            <ul class="children" id="kids-short-stories" hidden>
+              <li class="node node--book" data-id="dubliners" data-book-id="dubliners" data-depth="3">
+                <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+                  <a class="label" href="#/book/dubliners"><span class="title">Dubliners</span><span class="byline"><span class="author">James Joyce</span><span class="year">1914</span></span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+
+          <li class="node node--shelf" data-id="speculative" data-depth="2">
+            <div class="row">
+              <button class="twisty" type="button" aria-expanded="false" aria-controls="kids-speculative"><span class="twisty__glyph" aria-hidden="true"></span><span class="sr-only">Toggle Speculative</span></button>
+              <a class="label" href="#/shelf/speculative"><span class="title">Speculative</span><span class="meta">1 book · 1 shelf</span></a>
+            </div>
+            <ul class="children" id="kids-speculative" hidden>
+              <li class="node node--book" data-id="translation-state" data-book-id="translation-state" data-depth="3">
+                <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+                  <a class="label" href="#/book/translation-state"><span class="title">Translation State</span><span class="byline"><span class="author">Ann Leckie</span><span class="year">2023</span></span></a>
+                </div>
+              </li>
+              <li class="node node--shelf" data-id="deep-cuts" data-depth="3">
+                <div class="row">
+                  <button class="twisty" type="button" aria-expanded="false" aria-controls="kids-deep-cuts"><span class="twisty__glyph" aria-hidden="true"></span><span class="sr-only">Toggle Deep Cuts</span></button>
+                  <a class="label" href="#/shelf/deep-cuts"><span class="title">Deep Cuts</span><span class="meta">1 shelf</span></a>
+                </div>
+                <ul class="children" id="kids-deep-cuts" hidden>
+                  <li class="node node--shelf" data-id="forgotten-imprints" data-depth="4">
+                    <div class="row">
+                      <button class="twisty" type="button" aria-expanded="false" aria-controls="kids-forgotten-imprints"><span class="twisty__glyph" aria-hidden="true"></span><span class="sr-only">Toggle Forgotten Imprints</span></button>
+                      <a class="label" href="#/shelf/forgotten-imprints"><span class="title">Forgotten Imprints</span><span class="meta">1 shelf</span></a>
+                    </div>
+                    <ul class="children" id="kids-forgotten-imprints" hidden>
+                      <li class="node node--shelf" data-id="very-deep" data-depth="5">
+                        <div class="row">
+                          <button class="twisty" type="button" aria-expanded="false" aria-controls="kids-very-deep"><span class="twisty__glyph" aria-hidden="true"></span><span class="sr-only">Toggle Very Deep</span></button>
+                          <a class="label" href="#/shelf/very-deep"><span class="title">Very Deep</span><span class="meta">1 book</span></a>
+                        </div>
+                        <ul class="children" id="kids-very-deep" hidden>
+                          <li class="node node--book" data-id="autobiography-of-red" data-book-id="autobiography-of-red" data-depth="6">
+                            <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+                              <a class="label" href="#/book/autobiography-of-red"><span class="title">The Autobiography of Red: A Novel in Verse, and Other Long-Titled Works That Will Not Fit On One Line</span><span class="byline"><span class="author">Anne Carson</span><span class="year">1998</span></span></a>
+                            </div>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
+        </ul>
+      </li>
+
+      <li class="node node--shelf" data-id="nonfiction" data-depth="1">
+        <div class="row">
+          <button class="twisty" type="button" aria-expanded="false" aria-controls="kids-nonfiction"><span class="twisty__glyph" aria-hidden="true"></span><span class="sr-only">Toggle Non-fiction</span></button>
+          <a class="label" href="#/shelf/nonfiction"><span class="title">Non-fiction</span><span class="meta">3 shelves</span></a>
+        </div>
+        <ul class="children" id="kids-nonfiction" hidden>
+
+          <li class="node node--shelf" data-id="history" data-depth="2">
+            <div class="row">
+              <button class="twisty" type="button" aria-expanded="false" aria-controls="kids-history"><span class="twisty__glyph" aria-hidden="true"></span><span class="sr-only">Toggle History</span></button>
+              <a class="label" href="#/shelf/history"><span class="title">History</span><span class="meta">2 books</span></a>
+            </div>
+            <ul class="children" id="kids-history" hidden>
+              <li class="node node--book" data-id="silk-roads" data-book-id="silk-roads" data-depth="3">
+                <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+                  <a class="label" href="#/book/silk-roads"><span class="title">The Silk Roads</span><span class="byline"><span class="author">Peter Frankopan</span><span class="year">2015</span></span></a>
+                </div>
+              </li>
+              <li class="node node--book" data-id="spqr" data-book-id="spqr" data-depth="3">
+                <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+                  <a class="label" href="#/book/spqr"><span class="title">SPQR</span><span class="byline"><span class="author">Mary Beard</span><span class="year">2015</span></span></a>
+                </div>
+              </li>
+            </ul>
+          </li>
+
+          <li class="node node--shelf" data-id="science" data-depth="2">
+            <div class="row">
+              <button class="twisty" type="button" aria-expanded="false" aria-controls="kids-science"><span class="twisty__glyph" aria-hidden="true"></span><span class="sr-only">Toggle Science</span></button>
+              <a class="label" href="#/shelf/science"><span class="title">Science</span><span class="meta">3 books</span></a>
+            </div>
+            <ul class="children" id="kids-science" hidden>
+              <li class="node node--book" data-id="sixth-extinction" data-book-id="sixth-extinction" data-depth="3">
+                <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+                  <a class="label" href="#/book/sixth-extinction"><span class="title">The Sixth Extinction</span><span class="byline"><span class="author">Elizabeth Kolbert</span><span class="year">2014</span></span></a>
+                </div>
+              </li>
+              <li class="node node--book" data-id="entangled-life" data-book-id="entangled-life" data-depth="3">
+                <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+                  <a class="label" href="#/book/entangled-life"><span class="title">Entangled Life</span><span class="byline"><span class="author">Merlin Sheldrake</span><span class="year">2020</span></span></a>
+                </div>
+              </li>
+              <li class="node node--book node--twinned" data-id="overstory" data-book-id="overstory" data-depth="3">
+                <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+                  <a class="label" href="#/book/overstory"><span class="title">The Overstory</span><span class="byline"><span class="author">Richard Powers</span><span class="year">2018</span><span class="elsewhere">also on Fiction&nbsp;› Novels</span></span></a>
+                  <button class="twin" type="button" data-twin-of="overstory" aria-label="Shelved on 2 shelves. Go to the copy on Fiction, Novels."><span aria-hidden="true">2</span></button>
+                </div>
+              </li>
+            </ul>
+          </li>
+
+          <li class="node node--shelf" data-id="essays" data-depth="2">
+            <div class="row">
+              <button class="twisty" type="button" aria-expanded="false" aria-controls="kids-essays"><span class="twisty__glyph" aria-hidden="true"></span><span class="sr-only">Toggle Essays</span></button>
+              <a class="label" href="#/shelf/essays"><span class="title">Essays</span><span class="meta">1 book</span></a>
+            </div>
+            <ul class="children" id="kids-essays" hidden>
+              <li class="node node--book node--twinned" data-id="upstream" data-book-id="upstream" data-depth="3">
+                <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+                  <a class="label" href="#/book/upstream"><span class="title">Upstream</span><span class="byline"><span class="author">Mary Oliver</span><span class="year">2016</span><span class="elsewhere">also on Poetry</span></span></a>
+                  <button class="twin" type="button" data-twin-of="upstream" aria-label="Shelved on 2 shelves. Go to the copy on Poetry."><span aria-hidden="true">2</span></button>
+                </div>
+              </li>
+            </ul>
+          </li>
+
+        </ul>
+      </li>
+
+      <li class="node node--shelf" data-id="poetry" data-depth="1">
+        <div class="row">
+          <button class="twisty" type="button" aria-expanded="false" aria-controls="kids-poetry"><span class="twisty__glyph" aria-hidden="true"></span><span class="sr-only">Toggle Poetry</span></button>
+          <a class="label" href="#/shelf/poetry"><span class="title">Poetry</span><span class="meta">3 books</span></a>
+        </div>
+        <ul class="children" id="kids-poetry" hidden>
+          <li class="node node--book" data-id="ariel" data-book-id="ariel" data-depth="2">
+            <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+              <a class="label" href="#/book/ariel"><span class="title">Ariel</span><span class="byline"><span class="author">Sylvia Plath</span><span class="year">1965</span></span></a>
+            </div>
+          </li>
+          <li class="node node--book" data-id="devotions" data-book-id="devotions" data-depth="2">
+            <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+              <a class="label" href="#/book/devotions"><span class="title">Devotions</span><span class="byline"><span class="author">Mary Oliver</span><span class="year">2017</span></span></a>
+            </div>
+          </li>
+          <li class="node node--book node--twinned" data-id="upstream" data-book-id="upstream" data-depth="2">
+            <div class="row"><span class="twisty twisty--leaf" aria-hidden="true"></span>
+              <a class="label" href="#/book/upstream"><span class="title">Upstream</span><span class="byline"><span class="author">Mary Oliver</span><span class="year">2016</span><span class="elsewhere">also on Non&#8209;fiction&nbsp;› Essays</span></span></a>
+              <button class="twin" type="button" data-twin-of="upstream" aria-label="Shelved on 2 shelves. Go to the copy on Non-fiction, Essays."><span aria-hidden="true">2</span></button>
+            </div>
+          </li>
+        </ul>
+      </li>
+
+      <li class="node node--shelf node--empty" data-id="unsorted" data-depth="1">
+        <div class="row">
+          <button class="twisty" type="button" aria-expanded="false" aria-controls="kids-unsorted"><span class="twisty__glyph" aria-hidden="true"></span><span class="sr-only">Toggle Unsorted</span></button>
+          <a class="label" href="#/shelf/unsorted"><span class="title">Unsorted</span><span class="meta">empty</span></a>
+        </div>
+        <ul class="children" id="kids-unsorted" hidden>
+          <li class="node node--placeholder" data-depth="2"><p class="empty">Nothing shelved here yet</p></li>
+        </ul>
+      </li>
+
+    </ul>
+  </li>
+</ul>
+</div>
+</main>
+
+<footer class="legend">
+  <p><span class="legend__swatch legend__swatch--twin" aria-hidden="true">2</span> This book sits on more than one shelf. With <em>Draw cross-links</em> on, a dashed red line joins the two copies whenever both are open at once — turn <em>Follow one path</em> off to see it.</p>
+  <p class="legend__keys">Keys: <kbd>↑</kbd><kbd>↓</kbd> move · <kbd>→</kbd> expand · <kbd>←</kbd> collapse · <kbd>Enter</kbd> open. The canvas scrolls in both directions.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

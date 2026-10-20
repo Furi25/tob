@@ -1,0 +1,107 @@
+:root {
+  /* Paper — surfaces, lightest to deepest */
+  --paper-0: #fbf7f0;
+  --paper-1: #f3ede3;
+  --paper-2: #e8dfd1;
+  --paper-3: #d9ccb8;
+
+  /* Ink — text, strongest to faintest */
+  --ink-0: #1f1b16;
+  --ink-1: #4a423a;
+  --ink-2: #7a6f63;
+
+  /* Naturals — structure and accent */
+  --bark:  #8b6f4e;   /* connectors, rails, branch strokes */
+  --leaf:  #3f7d52;   /* active/expanded state, primary accent */
+  --fruit: #b4453a;   /* rare highlight: current node, badge */
+
+  /* Semantic aliases — concepts reference these, not the ramps above */
+  --color-bg:          var(--paper-0);
+  --color-surface:     var(--paper-1);
+  --color-surface-alt: var(--paper-2);
+  --color-border:      var(--paper-3);
+  --color-text:        var(--ink-0);
+  --color-text-muted:  var(--ink-2);
+  --color-branch:      var(--bark);
+  --color-accent:      var(--leaf);
+  --color-highlight:   var(--fruit);
+  --focus-ring:        0 0 0 2px var(--color-bg), 0 0 0 4px var(--leaf);
+
+  /* Type — system stacks only, no web fonts */
+  --font-display: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-ui: ui-sans-serif, system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  --text-xs:  0.75rem;    /* 12px — year, meta */
+  --text-sm:  0.875rem;   /* 14px — author */
+  --text-base:1rem;       /* 16px — book title */
+  --text-lg:  1.125rem;   /* 18px — shelf title */
+  --text-xl:  1.5rem;     /* 24px — section heading */
+  --text-2xl: 2.25rem;    /* 36px — root */
+
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --tracking-wide: 0.04em;
+
+  /* Space — 4px base */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* Shape */
+  --radius-sm: 2px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
+  --radius-pill: 999px;
+
+  /* Elevation — soft, warm, never neutral grey */
+  --shadow-sm: 0 1px 2px rgb(31 27 22 / 0.08);
+  --shadow-md: 0 4px 12px rgb(31 27 22 / 0.10);
+  --shadow-lg: 0 12px 32px rgb(31 27 22 / 0.14);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 120ms;
+  --dur-base: 220ms;
+  --dur-slow: 420ms;
+
+  /* Geometry */
+  --rail-width: 1px;
+  --node-gap: var(--space-2);
+  --indent-step: var(--space-6);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper-0: #14120f;
+    --paper-1: #1c1915;
+    --paper-2: #26211a;
+    --paper-3: #342d22;
+
+    --ink-0: #f2ede4;
+    --ink-1: #cfc6b8;
+    --ink-2: #9a9082;
+
+    --bark:  #c09a6b;
+    --leaf:  #7fb98d;
+    --fruit: #e08a7e;
+
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.40);
+    --shadow-md: 0 4px 12px rgb(0 0 0 / 0.48);
+    --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.56);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+  }
+}
