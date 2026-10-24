@@ -1,0 +1,24 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+next-env.d.ts
+*.tsbuildinfo
+
+# testing
+/test-results/
+/playwright-report/
+/blob-report/
+/coverage/
+
+# env files (.env.example and .env.test hold no secrets and are committed)
+.env
+.env.local
+.env.*.local
+
+# misc
+/.pgdata/
+.DS_Store
+*.log

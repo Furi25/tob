@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Book {
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  title          String
+  author         String
+  tagline        String
+  summary        String
+  about          String
+  whyPopular     String
+  whyItMatters   String
+  /// Short author biography; null = no "About the author" section.
+  authorBio      String?
+  affiliateUrl   String
+  coverImage     String?
+  /// { primary, surface, text, highlight }
+  palette        Json?
+  popularityRank Int      @unique
+  /// 1–25; null = not shown in the bookshop scene. Range enforced by a CHECK constraint in the migration.
+  displaySlot    Int?     @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}

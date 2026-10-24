@@ -1,0 +1,26 @@
+:root {
+  --wood-dark: #1f140e;
+  --wood: #2b1c12;
+  --paper: #f3e3c3;
+  --amber: #ffd590;
+  --amber-light: #ffe5b2;
+  --brass: #b68953;
+  --font-retro: ui-monospace, Consolas, "Courier New", monospace;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--wood-dark);
+  color: var(--paper);
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+a {
+  color: inherit;
+}

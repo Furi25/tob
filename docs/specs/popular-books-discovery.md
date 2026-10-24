@@ -108,6 +108,8 @@ type HomePageData = {
 
 ### 2. GET /books/[slug]
 
+> **Superseded** by [book-detail-page.md](book-detail-page.md).
+
 **Purpose**
 
 Render a dedicated book detail page.
@@ -176,6 +178,8 @@ type BookDetailData = {
 - Focus: visible ring and strong keyboard navigation across card links.
 
 ### Book detail page
+
+> **Superseded** by [book-detail-page.md](book-detail-page.md).
 
 **Route**
 

@@ -1,0 +1,224 @@
+.scene {
+  position: relative;
+  width: 100%;
+  max-width: 1920px;
+  margin-inline: auto;
+  aspect-ratio: 2752 / 1536;
+  /* Dominant tone of the artwork: shown while it loads or if it fails. */
+  background: #5a3b26;
+}
+
+.artwork {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* Smooth scaling: the scene is resampled at almost every width (see spec). */
+  image-rendering: auto;
+}
+
+.scene[data-image-failed] .artwork {
+  visibility: hidden;
+}
+
+/*
+ * Each book is three siblings, in this order: the link (clipped to the book's silhouette by an inline
+ * clip-path), its glowing edge svg and its focus-ring svg. The edge and ring cannot be children of the link,
+ * because the clip would cut them off. The selectors below rely on the order (a + edge + ring).
+ */
+.hotspot,
+.edge,
+.focusRing {
+  position: absolute;
+  top: var(--top);
+  left: var(--left);
+  width: var(--width);
+  height: var(--height);
+}
+
+.hotspot {
+  background: transparent;
+  /* A browser outline on a clipped link is cut off or drawn as a rectangle; the ring svg replaces it. */
+  outline: none;
+  transition: background-color 150ms ease;
+}
+
+.hotspot:hover {
+  background: #ffd27330;
+}
+
+.hotspot:focus-visible {
+  outline: none;
+  background: #ffd27355;
+}
+
+.edge,
+.focusRing {
+  overflow: visible;
+  pointer-events: none;
+}
+
+.edge {
+  filter: drop-shadow(0 0 3px #ffd69088);
+}
+
+.edge polygon,
+.focusRing polygon {
+  fill: none;
+  stroke-linejoin: round;
+  /* Stroke widths are screen pixels at every scene size. */
+  vector-effect: non-scaling-stroke;
+}
+
+.edgeBase {
+  stroke: #ffe0a2;
+  stroke-width: 0.8px;
+  opacity: 0.48;
+  transition:
+    opacity 150ms ease,
+    stroke-width 150ms ease;
+}
+
+.hotspot:hover + .edge .edgeBase,
+.hotspot:focus + .edge .edgeBase {
+  stroke-width: 1.3px;
+  opacity: 1;
+}
+
+.edgeGlint {
+  stroke: #fff5d3;
+  stroke-width: 1.8px;
+  stroke-dasharray: 1 23 2 74;
+  animation: edge-sparkle 5s linear infinite;
+  animation-delay: var(--glint-delay, 0s);
+}
+
+@keyframes edge-sparkle {
+  from {
+    stroke-dashoffset: 0;
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 0.95;
+  }
+
+  to {
+    stroke-dashoffset: -100;
+    opacity: 0.35;
+  }
+}
+
+/* Keyboard focus only (a mouse click does not show it). No glow filter, so the 3:1 contrast pair stays measurable. */
+.focusRing {
+  display: none;
+}
+
+.hotspot:focus-visible + .edge + .focusRing {
+  display: block;
+}
+
+.ringOuter {
+  stroke: #1f140e;
+  stroke-width: 5px;
+}
+
+.ringInner {
+  stroke: #ffe5b2;
+  stroke-width: 2.5px;
+}
+
+.scene[data-image-failed] .hotspot,
+.scene[data-image-failed] .edge,
+.scene[data-image-failed] .focusRing {
+  display: none;
+}
+
+/* Below the 840px breakpoint the scene is decorative; the sidebar is how readers browse. */
+@media (max-width: 839.98px) {
+  .hotspot,
+  .edge,
+  .focusRing {
+    display: none;
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  max-width: min(18rem, 100%);
+  padding: 8px 12px;
+  background: rgb(43 28 18 / 0.96);
+  color: var(--paper);
+  border: 1px solid var(--brass);
+  box-shadow: 3px 3px 0 rgb(0 0 0 / 0.6);
+  font: 12px/1.4 var(--font-retro);
+  pointer-events: none;
+}
+
+.label[hidden] {
+  display: none;
+}
+
+.labelTitle {
+  display: block;
+  color: var(--amber);
+  font-size: 13px;
+}
+
+.labelAuthor {
+  display: block;
+  margin-top: 4px;
+  color: #d1bba0;
+  font-size: 11px;
+}
+
+.overlaySpot {
+  position: absolute;
+  top: var(--top);
+  left: var(--left);
+  width: var(--width);
+  height: var(--height);
+  z-index: 1;
+  background: rgb(255 55 55 / 0.3);
+  outline: 1px dashed #ffe5b2;
+  pointer-events: none;
+}
+
+.overlayNumber {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  padding: 0 3px;
+  background: rgb(36 19 13 / 0.87);
+  color: #fff2ce;
+  font: bold 11px var(--font-retro);
+}
+
+/* No transitions or animations. The glint is not drawn; the base edge and its strong state stay as static highlights. */
+@media (prefers-reduced-motion: reduce) {
+  .hotspot,
+  .edgeBase {
+    transition: none;
+  }
+
+  .edgeGlint {
+    display: none;
+    animation: none;
+  }
+}

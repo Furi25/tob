@@ -1,0 +1,169 @@
+/* Book detail page (docs/specs/book-detail-page.md). Colours come only from the --book-* palette. */
+
+.page {
+  min-height: 100vh;
+  padding: 32px 16px 48px;
+  background:
+    linear-gradient(rgb(20 12 8 / 0.8), rgb(20 12 8 / 0.8)),
+    var(--book-backdrop) center / cover no-repeat fixed,
+    var(--wood-dark);
+}
+
+/* All text sits on this solid panel, never on the artwork. */
+.panel {
+  max-width: 1100px;
+  margin-inline: auto;
+  padding: clamp(20px, 4vw, 48px);
+  background: var(--book-surface);
+  color: var(--book-text);
+  border: 2px solid var(--book-primary);
+  box-shadow: 8px 8px 0 rgb(0 0 0 / 0.55);
+}
+
+.panel a {
+  color: var(--book-highlight);
+}
+
+.panel a:focus-visible {
+  outline: 3px solid var(--book-highlight);
+  outline-offset: 3px;
+}
+
+.back {
+  font: 14px/1.4 var(--font-retro);
+  text-underline-offset: 3px;
+}
+
+.layout {
+  display: grid;
+  gap: 32px;
+  margin-top: 24px;
+}
+
+@media (min-width: 840px) {
+  .layout {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    align-items: start;
+    gap: 48px;
+  }
+}
+
+.coverColumn {
+  justify-self: center;
+  width: 100%;
+  max-width: 320px;
+}
+
+/* Placeholder hardcover: cloth, spine and foil are pseudo-elements so the lettering sits on flat colour. */
+.cover {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18% 12% 14% 20%;
+  background: var(--book-primary);
+  color: var(--book-surface);
+  box-shadow: 10px 10px 0 rgb(0 0 0 / 0.55);
+}
+
+.cover::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 9%;
+  background: linear-gradient(90deg, rgb(0 0 0 / 0.35), rgb(0 0 0 / 0.1) 70%, rgb(255 255 255 / 0.15));
+}
+
+.cover::after {
+  content: "";
+  position: absolute;
+  inset: 5% 5% 5% 13%;
+  border: 2px solid var(--book-surface);
+  pointer-events: none;
+}
+
+.coverTitle {
+  position: relative;
+  font: bold clamp(1.5rem, 3vw, 2rem) / 1.15 var(--font-retro);
+  overflow-wrap: anywhere;
+}
+
+.coverAuthor {
+  position: relative;
+  font: bold 1.5rem / 1.2 var(--font-retro);
+  overflow-wrap: anywhere;
+}
+
+.coverFrame {
+  aspect-ratio: 2 / 3;
+  box-shadow: 10px 10px 0 rgb(0 0 0 / 0.55);
+}
+
+.coverImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+}
+
+.byline {
+  margin: 12px 0 0;
+  font: 1rem/1.4 var(--font-retro);
+}
+
+.tagline {
+  margin: 20px 0 0;
+  font-size: 1.25rem;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.section h2 {
+  margin: 32px 0 8px;
+  font: bold 0.875rem/1.4 var(--font-retro);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.section p {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+.buy {
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 1px solid var(--book-primary);
+}
+
+.buyLink {
+  display: inline-block;
+  padding: 10px 18px;
+  border: 2px solid var(--book-highlight);
+  font: bold 0.9375rem/1.2 var(--font-retro);
+  text-decoration: none;
+}
+
+.note {
+  margin: 12px 0 0;
+  font: 0.875rem/1.5 var(--font-retro);
+}
+
+.notFound {
+  margin-top: 24px;
+}
+
+.notFound p {
+  margin: 16px 0 0;
+  line-height: 1.6;
+}
