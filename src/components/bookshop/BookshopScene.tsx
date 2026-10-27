@@ -1,20 +1,16 @@
 import { Fragment, type CSSProperties } from "react";
 import type { DisplayBook } from "@/server/display";
 import { HotspotLabel } from "./HotspotLabel";
-import {
-  ARTWORK_SIZE,
-  ARTWORK_VERSION,
-  ARTWORK_WIDTHS,
-  HOTSPOTS,
-  shapeClipPath,
-  shapePoints,
-  type Hotspot,
-} from "./hotspots";
+import { shapeClipPath, shapePoints, type Hotspot } from "./hotspots";
+import { artworkPath, type Scene } from "./scenes";
 import styles from "./bookshop.module.css";
 
-const SRC_SET = ARTWORK_WIDTHS.map((w) => `/bookshop/scene@${ARTWORK_VERSION}-${w}.webp ${w}w`).join(", ");
-// Matches the scene's width rule: the content area (viewport minus 2×16px padding), capped at 1920px.
-const SIZES = "(min-width: 1952px) 1920px, calc(100vw - 32px)";
+const srcSetOf = (scene: Scene) => scene.artwork.widths.map((w) => `${artworkPath(scene, w)} ${w}w`).join(", ");
+// Matches the scene's width rule (bookshop.module.css): the smallest of the content area (viewport minus
+// 2×16px padding), the free height times the artwork's ratio (viewport height minus the 96px page chrome in
+// page.module.css), and 1920px.
+const sizesOf = ({ artwork }: Scene) =>
+  `min(1920px, calc(100vw - 32px), calc((100vh - 96px) * ${artwork.size.width} / ${artwork.size.height}))`;
 
 const rectVars = ({ rect }: Hotspot) =>
   ({
@@ -30,23 +26,26 @@ const GLINT_STEP_SECONDS = 0.37;
 const edgeVars = (spot: Hotspot) =>
   ({ ...rectVars(spot), "--glint-delay": `${(-(spot.slot - 1) * GLINT_STEP_SECONDS).toFixed(2)}s` }) as CSSProperties;
 
-type BookshopSceneProps = { books: DisplayBook[]; showOverlay: boolean };
+type BookshopSceneProps = { scene: Scene; books: DisplayBook[]; showOverlay: boolean };
 
-export function BookshopScene({ books, showOverlay }: BookshopSceneProps) {
-  const spots = new Map(HOTSPOTS.map((h) => [h.slot, h]));
+export function BookshopScene({ scene, books, showOverlay }: BookshopSceneProps) {
+  const spots = new Map(scene.hotspots.map((h) => [h.slot, h]));
+  const { width, height } = scene.artwork.size;
+  // Unitless numbers: the stylesheet turns them into the aspect ratio and the fit-the-window width.
+  const sceneVars = { "--art-w": width, "--art-h": height } as CSSProperties;
 
   return (
-    <div className={styles.scene} data-bookshop-scene="">
+    <div className={styles.scene} style={sceneVars} data-bookshop-scene="">
       {/* eslint-disable-next-line @next/next/no-img-element -- next/image cannot serve this pre-made srcset without re-encoding (spec: Assets) */}
       <img
         className={styles.artwork}
-        src={`/bookshop/scene@${ARTWORK_VERSION}-${ARTWORK_WIDTHS[1]}.webp`}
-        srcSet={SRC_SET}
-        sizes={SIZES}
-        width={ARTWORK_SIZE.width}
-        height={ARTWORK_SIZE.height}
+        src={artworkPath(scene, scene.artwork.widths[1])}
+        srcSet={srcSetOf(scene)}
+        sizes={sizesOf(scene)}
+        width={width}
+        height={height}
         fetchPriority="high"
-        alt="A sunlit pixel-art bookshop with books on the shelves, a low table, a display stand and the counter."
+        alt={scene.alt}
       />
       {books.map((book) => {
         const spot = spots.get(book.slot);
@@ -92,8 +91,11 @@ export function BookshopScene({ books, showOverlay }: BookshopSceneProps) {
         );
       })}
       {showOverlay
-        ? HOTSPOTS.map((spot) => (
+        ? scene.hotspots.map((spot) => (
             <div key={spot.slot} className={styles.overlaySpot} style={rectVars(spot)} aria-hidden="true">
+              <svg className={styles.overlayShape} viewBox="0 0 100 100" preserveAspectRatio="none">
+                <polygon points={shapePoints(spot.shape)} />
+              </svg>
               <span className={styles.overlayNumber}>{spot.slot}</span>
             </div>
           ))

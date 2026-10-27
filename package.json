@@ -12,7 +12,9 @@
     "test:e2e": "playwright test",
     "db:up": "docker compose up -d --wait db",
     "db:local": "node scripts/local-db.mjs",
-    "assets:scene": "node scripts/make-scene-assets.mjs",
+    "assets:scene": "tsx scripts/make-scene-assets.mjs",
+    "covers:fetch": "tsx scripts/covers/cli.ts",
+    "content": "tsx scripts/content/cli.ts",
     "postinstall": "prisma generate"
   },
   "prisma": {

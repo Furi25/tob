@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "generatedAt": "2026-10-26T21:08:09.176Z",
+  "interrupted": false,
+  "books": [
+    {
+      "slug": "anathem",
+      "title": "Anathem",
+      "author": "Neal Stephenson",
+      "isbn": null,
+      "status": "ok",
+      "file": "images/anathem.png",
+      "source": "openlibrary",
+      "sourceUrl": "https://covers.openlibrary.org/b/id/6304233-L.jpg?default=false",
+      "rights": "Cover art; copyright usually held by the publisher. Not licensed by this source.",
+      "originalSize": {
+        "width": 307,
+        "height": 500
+      },
+      "outputSize": {
+        "width": 306,
+        "height": 459
+      },
+      "cropped": true,
+      "attempts": [
+        {
+          "source": "openlibrary",
+          "outcome": "used"
+        }
+      ]
+    }
+  ]
+}

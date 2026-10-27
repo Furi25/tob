@@ -2,6 +2,7 @@
 // Every write is guarded so it can never touch a non-test database.
 import { execSync } from "node:child_process";
 import { PrismaClient } from "@prisma/client";
+import { isolatedSeedEnv } from "../../support/content-import";
 
 export const prisma = new PrismaClient();
 
@@ -19,7 +20,7 @@ export function assertTestDatabase(): void {
 
 export function reseed(): void {
   assertTestDatabase();
-  execSync("npx prisma db seed", { cwd: process.cwd(), stdio: "pipe", timeout: 120_000 });
+  execSync("npx prisma db seed", { cwd: process.cwd(), stdio: "pipe", timeout: 120_000, env: isolatedSeedEnv() });
 }
 
 /** Books currently on display, in slot order, read straight from the database. */

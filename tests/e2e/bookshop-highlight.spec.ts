@@ -14,9 +14,11 @@
 // Preconditions are the same as tests/e2e/bookshop-display.spec.ts: the server reads a database whose name
 // contains "test", and this file reseeds it. The config runs a single worker, so tests never overlap.
 import { expect, test, type Locator, type Page } from "@playwright/test";
-import { HOTSPOTS, type Hotspot } from "../../src/components/bookshop/hotspots";
+import type { Hotspot } from "../../src/components/bookshop/hotspots";
+import { DEFAULT_SCENE } from "../../src/components/bookshop/scenes";
 import { hexToCss } from "../support/contrast";
-import { displayedBooks, prisma, reseed, type DisplayRow } from "./support/db";
+import { placedBooks, prisma, reseed } from "./support/scenes";
+import type { DisplayRow } from "./support/db";
 import {
   allZero,
   parseClipPath,
@@ -27,12 +29,16 @@ import {
   type Point,
 } from "./support/geometry";
 
+const HOTSPOTS = DEFAULT_SCENE.hotspots;
+
 type Box = { x: number; y: number; width: number; height: number };
 type WithShape = { shape?: readonly Point[] };
 
-const DESKTOP = { width: 1952, height: 1100 } as const; // scene is its full 1920px, so small books are as large as they get
+// The scene is limited by the window height too (spec: Scales to fit the window), so the viewport is tall
+// enough, (1200 − 96) × 2752/1536 ≥ 1920, for the scene to be its full 1920px, where small books are as large as they get.
+const DESKTOP = { width: 1952, height: 1200 } as const;
 const SCENE = "[data-bookshop-scene]";
-const SCENE_IMG = 'img[srcset*="/bookshop/scene@"]';
+const SCENE_IMG = `img[srcset*="/bookshop/${DEFAULT_SCENE.id}@"]`;
 const EDGE = "[data-hotspot-edge]";
 const FOCUS_SVG = "[data-hotspot-focus]";
 const BOOK_LINKS = `${SCENE} a[href^="/books/"]`;
@@ -50,7 +56,7 @@ let books: DisplayRow[] = [];
 
 test.beforeAll(async () => {
   reseed();
-  books = await displayedBooks();
+  books = await placedBooks(DEFAULT_SCENE.id);
   expect(books, "precondition: the seed places 25 books").toHaveLength(25);
 });
 

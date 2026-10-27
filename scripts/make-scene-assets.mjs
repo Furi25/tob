@@ -1,5 +1,8 @@
-// One-off: makes the served bookshop artwork from the master (docs/specs/bookshop-display.md, "Assets").
-// Not part of the build. Run with `npm run assets:scene` only when the master or ARTWORK_VERSION changes.
+// Makes the served artwork of the scenes from their masters (docs/specs/multiple-bookshop-scenes.md, "Artwork files").
+// Not part of the build. Run only when a master or its artwork.version changes:
+//   npm run assets:scene -- <scene-id>   writes only that scene's files
+//   npm run assets:scene                 writes every scene's files
+// The id, master path, version and widths come from the registry in src/components/bookshop/scenes.
 //
 // - Downscales with an exact area-averaging (box) filter, implemented here so the result does not
 //   depend on an image library's resampling kernel.
@@ -7,11 +10,9 @@
 import { mkdirSync, statSync } from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
+import { SCENES } from "../src/components/bookshop/scenes/index.ts";
 
-const VERSION = "v1";
-const MASTER = path.resolve("docs", "bookstore display.png");
 const OUT_DIR = path.resolve("public", "bookshop");
-const WIDTHS = [1376, 2064, 2752];
 
 /** Box-filters one axis: each output sample averages the input samples it covers, weighted by overlap. */
 function resampleAxis(src, srcLen, dstLen, otherLen, channels, horizontal) {
@@ -38,37 +39,53 @@ function resampleAxis(src, srcLen, dstLen, otherLen, channels, horizontal) {
   return dst;
 }
 
-const { data, info } = await sharp(MASTER).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
-const { width, height } = info;
-let opaque = true;
-for (let i = 3; i < data.length; i += 4) {
-  if (data[i] !== 255) {
-    opaque = false;
-    break;
+async function makeAssets(scene) {
+  const { version, widths, master } = scene.artwork;
+  const { data, info } = await sharp(path.resolve(master)).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
+  const { width, height } = info;
+  if (width !== scene.artwork.size.width || height !== scene.artwork.size.height) {
+    throw new Error(
+      `${scene.id}: ${master} is ${width}×${height} but artwork.size says ${scene.artwork.size.width}×${scene.artwork.size.height}`,
+    );
+  }
+  let opaque = true;
+  for (let i = 3; i < data.length; i += 4) {
+    if (data[i] !== 255) {
+      opaque = false;
+      break;
+    }
+  }
+  const channels = opaque ? 3 : 4;
+  const pixels = new Float32Array(width * height * channels);
+  for (let p = 0, q = 0; p < data.length; p += 4) {
+    for (let c = 0; c < channels; c++) pixels[q++] = data[p + c];
+  }
+
+  mkdirSync(OUT_DIR, { recursive: true });
+  console.log(`${scene.id}: master ${width}×${height}, ${opaque ? "opaque (alpha dropped)" : "has transparency (alpha kept)"}`);
+
+  for (const outWidth of widths) {
+    const outHeight = Math.round((height * outWidth) / width);
+    let result = pixels;
+    if (outWidth !== width) {
+      const horizontal = resampleAxis(pixels, width, outWidth, height, channels, true);
+      result = resampleAxis(horizontal, height, outHeight, outWidth, channels, false);
+    }
+    const bytes = Buffer.alloc(result.length);
+    for (let i = 0; i < result.length; i++) bytes[i] = Math.max(0, Math.min(255, Math.round(result[i])));
+
+    const file = path.join(OUT_DIR, `${scene.id}@${version}-${outWidth}.webp`);
+    await sharp(bytes, { raw: { width: outWidth, height: outHeight, channels } })
+      .webp({ lossless: true, effort: 6 })
+      .toFile(file);
+    console.log(`${path.relative(process.cwd(), file)}  ${outWidth}×${outHeight}  ${(statSync(file).size / 1e6).toFixed(2)} MB`);
   }
 }
-const channels = opaque ? 3 : 4;
-const pixels = new Float32Array(width * height * channels);
-for (let p = 0, q = 0; p < data.length; p += 4) {
-  for (let c = 0; c < channels; c++) pixels[q++] = data[p + c];
+
+const requested = process.argv[2];
+const scenes = requested === undefined ? SCENES : SCENES.filter((scene) => scene.id === requested);
+if (scenes.length === 0) {
+  console.error(`Unknown scene "${requested}". Known scenes: ${SCENES.map((scene) => scene.id).join(", ")}`);
+  process.exit(1);
 }
-
-mkdirSync(OUT_DIR, { recursive: true });
-console.log(`master ${width}×${height}, ${opaque ? "opaque (alpha dropped)" : "has transparency (alpha kept)"}`);
-
-for (const outWidth of WIDTHS) {
-  const outHeight = Math.round((height * outWidth) / width);
-  let result = pixels;
-  if (outWidth !== width) {
-    const horizontal = resampleAxis(pixels, width, outWidth, height, channels, true);
-    result = resampleAxis(horizontal, height, outHeight, outWidth, channels, false);
-  }
-  const bytes = Buffer.alloc(result.length);
-  for (let i = 0; i < result.length; i++) bytes[i] = Math.max(0, Math.min(255, Math.round(result[i])));
-
-  const file = path.join(OUT_DIR, `scene@${VERSION}-${outWidth}.webp`);
-  await sharp(bytes, { raw: { width: outWidth, height: outHeight, channels } })
-    .webp({ lossless: true, effort: 6 })
-    .toFile(file);
-  console.log(`${path.relative(process.cwd(), file)}  ${outWidth}×${outHeight}  ${(statSync(file).size / 1e6).toFixed(2)} MB`);
-}
+for (const scene of scenes) await makeAssets(scene);

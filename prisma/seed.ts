@@ -1,8 +1,24 @@
-// Seeds the 25 placeholder books from mockups/bookstore-display/index.html (docs/specs/bookshop-display.md).
+// Seeds the placeholder books and places them in every scene (docs/specs/bookshop-display.md,
+// docs/specs/multiple-bookshop-scenes.md): the 25 books of mockups/bookstore-display/index.html in the bookshop, and one
+// obviously fake book per hotspot in every other scene.
 // Re-running is safe: books are upserted by slug and land in the same slots every time.
+//
+// Approved content (docs/specs/content-import.md): when `.content/books-content.json` exists (or the file named by
+// BOOK_CONTENT_FILE), its entries replace the placeholder copy and genres of the matching books. REPLACEMENTS lists the
+// real books that take over one placeholder position in a scene; they are only active while the file has an entry.
+import { existsSync, readFileSync } from "node:fs";
+import path from "node:path";
 import { PrismaClient } from "@prisma/client";
+import { DEFAULT_SCENE_ID, SCENES, type Scene } from "../src/components/bookshop/scenes";
+import { slugify } from "../src/lib/slug";
+import { ContentFileSchema, type ApprovedBook } from "../scripts/content/schema";
 
 type SeedBook = { title: string; author: string; about: string; whyItMatters: string };
+
+type Replacement = { sceneId: string; slot: number; title: string; author: string };
+
+/** Real books that take over the placeholder hanging at `slot` of `sceneId`, once the content file has an entry. */
+const REPLACEMENTS: readonly Replacement[] = [{ sceneId: "abbey", slot: 1, title: "Anathem", author: "Neal Stephenson" }];
 
 // Mockup order (its 1–25 numbering). This is also the placeholder popularityRank.
 const BOOKS: SeedBook[] = [
@@ -161,6 +177,25 @@ const BOOKS: SeedBook[] = [
 /** Fixed shuffle seed: every environment gets the same layout, and reseeding never moves books. */
 const SHUFFLE_SEED = 0x7b0c5;
 
+/**
+ * An obviously fake stand-in per hotspot ("Abbey Placeholder 01", …). A later reseed replaces them with the real
+ * titles, with no code change.
+ */
+function placeholderBooks(sceneName: string, count: number): SeedBook[] {
+  return Array.from({ length: count }, (_, i) => ({
+    title: `${sceneName} Placeholder ${String(i + 1).padStart(2, "0")}`,
+    author: "Placeholder Author",
+    about: "Placeholder text: a short description of this book will go here.",
+    whyItMatters: "Placeholder text: why this book matters will go here.",
+  }));
+}
+
+/** The books that hang in a scene. `bookshop` keeps its 25 originals; every other scene has books of its own. */
+function booksFor(scene: Scene): SeedBook[] {
+  if (scene.id === DEFAULT_SCENE_ID) return BOOKS;
+  return placeholderBooks(scene.name.replace(/^The /, ""), scene.hotspots.length);
+}
+
 function mulberry32(seed: number): () => number {
   let a = seed >>> 0;
   return () => {
@@ -182,42 +217,132 @@ function shuffledSlots(count: number, seed: number): number[] {
   return slots;
 }
 
-function slugify(title: string): string {
-  return title
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
+/**
+ * The shuffled slot of every book position in a scene. The default scene keeps its original seed, so its layout never
+ * changes; every other scene shuffles its own slots with a seed derived from its registry position.
+ */
+function slotsFor(scene: Scene): number[] {
+  const seed = scene.id === DEFAULT_SCENE_ID ? SHUFFLE_SEED : SHUFFLE_SEED + SCENES.indexOf(scene);
+  return shuffledSlots(scene.hotspots.length, seed);
+}
+
+/** The index in `booksFor(scene)` of the book that hangs at `slot`. */
+function positionOf(scene: Scene, slot: number): number {
+  const position = slotsFor(scene).indexOf(slot);
+  if (position < 0 || position >= booksFor(scene).length) throw new Error(`scene ${scene.id} has no book at slot ${slot}`);
+  return position;
+}
+
+const DEFAULT_CONTENT_FILE = path.join(".content", "books-content.json");
+
+/**
+ * The approved entries by slug. No file at the default path means placeholders only. A path given in BOOK_CONTENT_FILE
+ * must exist. A file that does not parse, does not match the schema, or repeats a slug is an error.
+ */
+function loadContent(): Map<string, ApprovedBook> {
+  const explicit = process.env.BOOK_CONTENT_FILE;
+  const file = path.resolve(explicit ? explicit : DEFAULT_CONTENT_FILE);
+  if (!existsSync(file)) {
+    if (explicit) throw new Error(`BOOK_CONTENT_FILE points at ${file}, which does not exist`);
+    console.log("no content file, using placeholders");
+    return new Map();
+  }
+
+  let raw: unknown;
+  try {
+    raw = JSON.parse(readFileSync(file, "utf8"));
+  } catch (error) {
+    throw new Error(`content file ${file} is not valid JSON: ${error instanceof Error ? error.message : String(error)}`);
+  }
+  const parsed = ContentFileSchema.safeParse(raw);
+  if (!parsed.success) {
+    const issues = parsed.error.issues
+      .slice(0, 5)
+      .map((issue) => `  ${issue.path.join(".") || "(file)"}: ${issue.message}`)
+      .join("\n");
+    throw new Error(`content file ${file} is not valid:\n${issues}`);
+  }
+
+  const bySlug = new Map<string, ApprovedBook>();
+  for (const entry of parsed.data.books) {
+    if (bySlug.has(entry.slug)) throw new Error(`content file ${file} is not valid: two entries have the slug ${entry.slug}`);
+    bySlug.set(entry.slug, entry);
+  }
+  return bySlug;
 }
 
 async function main(): Promise<void> {
+  // Read and validate before the transaction: a bad file stops the seed before any write.
+  const content = loadContent();
+  const used = new Set<string>();
+  let applied = 0;
+
   const prisma = new PrismaClient();
-  const slots = shuffledSlots(BOOKS.length, SHUFFLE_SEED);
   try {
     await prisma.$transaction(async (tx) => {
-      // Free every slot first so the upserts below never collide on the unique displaySlot.
-      await tx.book.updateMany({ data: { displaySlot: null } });
-      for (const [index, book] of BOOKS.entries()) {
-        const data = {
-          title: book.title,
-          author: book.author,
-          tagline: `Placeholder tagline for ${book.title}.`,
-          summary: `Placeholder summary for ${book.title}.`,
-          about: book.about,
-          whyPopular: `Placeholder: why ${book.title} is popular right now.`,
-          whyItMatters: book.whyItMatters,
-          authorBio: `Placeholder: a short biography of ${book.author}.`,
-          affiliateUrl: "#affiliate-pending",
-          popularityRank: index + 1,
-          displaySlot: slots[index],
-        };
-        const slug = slugify(book.title);
-        await tx.book.upsert({ where: { slug }, create: { slug, ...data }, update: data });
+      // Free every slot of every registered scene first, so the placements below never collide.
+      await tx.placement.deleteMany({ where: { sceneId: { in: SCENES.map((s) => s.id) } } });
+
+      // popularityRank is unique and a replacement inherits its placeholder's rank, so the row that is not in use this
+      // run goes first: the placeholder when the replacement is active, the real book when it is not.
+      const active = new Map<string, Replacement>();
+      for (const replacement of REPLACEMENTS) {
+        const scene = SCENES.find((s) => s.id === replacement.sceneId);
+        if (!scene) throw new Error(`replacement ${replacement.title}: unknown scene ${replacement.sceneId}`);
+        const realSlug = slugify(replacement.title);
+        const position = positionOf(scene, replacement.slot);
+        const placeholderSlug = slugify(booksFor(scene)[position].title);
+        if (content.has(realSlug)) {
+          active.set(`${scene.id}/${position}`, replacement);
+          await tx.book.deleteMany({ where: { slug: placeholderSlug } });
+        } else {
+          await tx.book.deleteMany({ where: { slug: realSlug } });
+        }
+      }
+
+      let rank = 0;
+      for (const scene of SCENES) {
+        const books = booksFor(scene);
+        const slots = slotsFor(scene);
+
+        for (const [index, placeholder] of books.entries()) {
+          rank += 1;
+          const replacement = active.get(`${scene.id}/${index}`);
+          const book: SeedBook = replacement ? { ...placeholder, title: replacement.title, author: replacement.author } : placeholder;
+          const slug = slugify(book.title);
+          const entry = content.get(slug);
+          if (entry) {
+            used.add(slug);
+            applied += 1;
+            if (entry.title !== book.title || entry.author !== book.author) {
+              console.warn(`warning: content entry ${slug} says "${entry.title}" by ${entry.author}; keeping "${book.title}" by ${book.author}`);
+            }
+          }
+          const data = {
+            title: book.title,
+            author: book.author,
+            tagline: entry ? entry.tagline : `Placeholder tagline for ${book.title}.`,
+            summary: entry ? entry.summary : `Placeholder summary for ${book.title}.`,
+            about: entry ? entry.about : book.about,
+            whyPopular: entry ? entry.whyPopular : `Placeholder: why ${book.title} is popular right now.`,
+            whyItMatters: entry ? entry.whyItMatters : book.whyItMatters,
+            authorBio: entry ? entry.authorBio : `Placeholder: a short biography of ${book.author}.`,
+            genres: entry ? entry.genres : [],
+            affiliateUrl: "#affiliate-pending",
+            popularityRank: rank,
+          };
+          const saved = await tx.book.upsert({ where: { slug }, create: { slug, ...data }, update: data });
+          await tx.placement.create({ data: { sceneId: scene.id, slot: slots[index], bookId: saved.id } });
+        }
       }
     });
   } finally {
     await prisma.$disconnect();
+  }
+
+  if (content.size > 0) {
+    const ignored = [...content.keys()].filter((slug) => !used.has(slug));
+    console.log(`content applied to ${applied} books, ignored ${ignored.length} entries${ignored.length > 0 ? ` (${ignored.join(", ")})` : ""}`);
   }
 }
 

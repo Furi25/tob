@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "generated": "2026-10-26T20:59:32.931Z",
+  "books": [
+    {
+      "version": 1,
+      "slug": "anathem",
+      "title": "Anathem",
+      "author": "Neal Stephenson",
+      "tagline": "A monastery of mathematicians, a world that stopped listening to them, and the day the gates open",
+      "summary": "On the planet Arbre, scholars live in walled monastic communities, cut off from a loud, technology-saturated world. When the gates open and a young monk, Fraa Erasmas, is drawn into events beyond the walls, an idea-heavy adventure begins. Dense and long, but built for readers who like to argue about big questions.",
+      "about": "Anathem is set on Arbre, a world that looks a lot like ours but runs on its own history, vocabulary and calendar. Long ago its thinkers withdrew into monastic communities called concents, to keep their work safe while society around them fell apart. These scholars, the avout, live under a strict Discipline. They own very little, are barred from most advanced technology, and may speak with the outside world only at fixed intervals, set by the vows they have taken. Beyond the walls, the ordinary Sæcular world is busy, commercial and easily distracted. The narrator is Fraa Erasmas, a young avout at the Concent of Saunt Edhar, who spends his days on mathematics, philosophy, chant and argument with a close circle of friends. When the gates open and the two worlds meet, he finds that the order he trusted is more fragile than it looked. Something has begun to press on Arbre from outside, and people who were never meant to leave their cloisters are pulled into politics, long journeys and real danger. The book is built around explanation. Each chapter opens with the definition of an invented word, a glossary closes the volume, and long conversations about physics, logic and the nature of consciousness sit beside travel and action. Part of the pleasure is detective work: learning Arbre's vocabulary and noticing how its intellectual history echoes ours.",
+      "whyPopular": "Readers come to Anathem for the scale of its invention and stay for the way it turns ideas into plot. Stephenson already had a large audience from Snow Crash and the Baroque Cycle, and this book entered the New York Times hardcover fiction list at the top. It won the Locus Award for Best Science Fiction Novel in 2009 and was nominated for the Hugo, Arthur C. Clarke and John W. Campbell Memorial awards. It was also reviewed in the journal Nature, a rare distinction for a novel. Word of mouth does the rest. The book gives readers something to argue about: whether the monks' separation from a distracted outside world is wise or smug, how much of its mathematics and philosophy holds up, whether the invented vocabulary is a barrier or a delight. Critics split along similar lines. Paul Boutin in the Wall Street Journal praised Stephenson's \"wry contempt for today's just-Google-it mindset\", while Michael Dirda of the Washington Post found the novel \"grandiose, overwrought and pretty damn dull\". That split is the honest warning. The opening asks for patience, with a heavy load of new terms and long philosophical dialogues before the larger story gathers speed. Readers who want fast plot, light prose or little abstract discussion may bounce off it.",
+      "whyItMatters": "Anathem is one of the few recent novels to treat the history of science and philosophy as a story worth telling at book length. Stephenson places the many-worlds interpretation of quantum mechanics and the old quarrel between Platonic realism and nominalism inside an invented world, so that a reader can follow the arguments without footnotes. He has explained that he moved the story off Earth because characters discussing real thinkers would otherwise keep citing treatises and translators. It also carries a theme that has only sharpened since it was published in 2008: the gap between people with long attention spans and a culture of constant interruption. Stephenson has said he did not want a book with a political axe to grind, but the monks' reaction to the outsiders' gadgets reads as commentary all the same. The novel grew in part from his work on the Clock of the Long Now, a project to build a clock meant to run for a very long time. Its lasting value is as a demonstration of how far science fiction can go as a novel of ideas. Its limit is that the demonstration is long: at 937 pages in its first hardcover edition it demands time, and some of its debates will feel like seminars to readers who came for the plot.",
+      "authorBio": "Neal Stephenson is an American novelist who was born in Fort Meade, Maryland, grew up in Iowa, and graduated from Boston University with a degree in geography and a minor in physics. He comes from a family of academics: he has said his great-grandfather was a professor of classics and that both grandfathers and his father were professors. His novel Snow Crash, which appeared in 1992, made his name. He went on to write Zodiac, The Diamond Age, Cryptonomicon, the three-volume Baroque Cycle, REAMDE, Seveneves and Termination Shock, as well as nonfiction such as In the Beginning . . . Was the Command Line. Outside fiction he has worked for Blue Origin and Magic Leap, and in 2022 he launched Lamina1, a company building an open source metaverse.",
+      "genres": [
+        "Science fiction",
+        "Philosophical science fiction",
+        "Speculative fiction",
+        "Novel of ideas"
+      ],
+      "sources": [
+        "https://en.wikipedia.org/wiki/Anathem",
+        "https://www.penguinrandomhouse.com/authors/29741/neal-stephenson/",
+        "https://www.bu.edu/bostonia/fall08/stephenson/",
+        "https://locusmag.com/2008/Issue09_Stephenson.html",
+        "https://en.wikipedia.org/wiki/Neal_Stephenson"
+      ],
+      "facts": [
+        {
+          "claim": "published in 2008",
+          "sourceUrl": "https://en.wikipedia.org/wiki/Anathem",
+          "evidence": "Publication date: September 9, 2008"
+        },
+        {
+          "claim": "937 pages in its first hardcover edition",
+          "sourceUrl": "https://en.wikipedia.org/wiki/Anathem",
+          "evidence": "Pages: 937"
+        },
+        {
+          "claim": "won the Locus Award for Best Science Fiction Novel in 2009",
+          "sourceUrl": "https://en.wikipedia.org/wiki/Anathem",
+          "evidence": "Awards: Locus Award for Best Science Fiction Novel (2009)"
+        },
+        {
+          "claim": "Snow Crash, which appeared in 1992",
+          "sourceUrl": "https://www.bu.edu/bostonia/fall08/stephenson/",
+          "evidence": "since the 1992 publication of Snow Crash, a novel that predicted with eerie accuracy the advent of virtual communities like Second Life and World of Warcraft"
+        },
+        {
+          "claim": "in 2022 he launched Lamina1",
+          "sourceUrl": "https://en.wikipedia.org/wiki/Neal_Stephenson",
+          "evidence": "In 2022, Stephenson launched Lamina1 to build an open source metaverse"
+        }
+      ],
+      "confidence": "high",
+      "needsReview": [
+        "Plot set-up, awards and the Boutin and Dirda quotes come from the Wikipedia article, not the original reviews; check them against the original reviews or a publisher page before publishing.",
+        "The Locus Online interview page was read only as a search excerpt (birthplace, Iowa, Boston University degree), not opened in full.",
+        "Page counts vary by edition elsewhere; 937 is the first hardcover edition per Wikipedia and a library catalogue record.",
+        "The Fort Meade, Maryland birthplace is Locus's wording; the Maryland spelling-out is an expansion of their abbreviation.",
+        "The family-of-professors detail comes from a Bostonia interview with Stephenson and is his own account.",
+        "Plot details are deliberately kept to the opening set-up; an editor should confirm the spoiler boundary.",
+        "Wikipedia says the book entered the New York Times hardcover list at number one; no second source was opened for this."
+      ],
+      "drafter": "Claude",
+      "review": {
+        "approvedAt": "2026-10-26T20:59:32.931Z",
+        "verification": "partial",
+        "warningsAccepted": true,
+        "draftSha256": "f16586b9953b57453af194882316962c224dc9f9deed825076295719e54052d4"
+      }
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+# comments and blank lines are ignored
+The Hobbit | J.R.R. Tolkien
+Dune | Frank Herbert | 9780441013593

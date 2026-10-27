@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Abbey</title>
+<link rel="stylesheet" href="styles.css">
+<script src="app.js" defer></script>
+</head>
+<body>
+<header>
+  <a class="brand" href="#home">The Abbey</a>
+  <div class="controls">
+    <button type="button" id="fit-scene" aria-pressed="false">Fill screen</button>
+    <button type="button" id="markers" aria-pressed="false">Show mapping</button>
+    <button type="button" id="edit-boxes" aria-pressed="false">Edit boxes</button>
+  </div>
+</header>
+
+<main id="viewport" aria-label="Interactive bookshop: The Abbey">
+  <div class="scene" id="shop">
+    <img class="scene-bg" id="background" src="../../docs/scenes/gothic.png" alt="A candlelit gothic abbey library with easels, round tables and shelves of displayed books.">
+    <ol id="hotspots" aria-label="Explore 29 books">
+      <li><a href="#book/1" data-author="Placeholder Author">Abbey Placeholder 01</a></li>
+      <li><a href="#book/2" data-author="Placeholder Author">Abbey Placeholder 02</a></li>
+      <li><a href="#book/3" data-author="Placeholder Author">Abbey Placeholder 03</a></li>
+      <li><a href="#book/4" data-author="Placeholder Author">Abbey Placeholder 04</a></li>
+      <li><a href="#book/5" data-author="Placeholder Author">Abbey Placeholder 05</a></li>
+      <li><a href="#book/6" data-author="Placeholder Author">Abbey Placeholder 06</a></li>
+      <li><a href="#book/7" data-author="Placeholder Author">Abbey Placeholder 07</a></li>
+      <li><a href="#book/8" data-author="Placeholder Author">Abbey Placeholder 08</a></li>
+      <li><a href="#book/9" data-author="Placeholder Author">Abbey Placeholder 09</a></li>
+      <li><a href="#book/10" data-author="Placeholder Author">Abbey Placeholder 10</a></li>
+      <li><a href="#book/11" data-author="Placeholder Author">Abbey Placeholder 11</a></li>
+      <li><a href="#book/12" data-author="Placeholder Author">Abbey Placeholder 12</a></li>
+      <li><a href="#book/13" data-author="Placeholder Author">Abbey Placeholder 13</a></li>
+      <li><a href="#book/14" data-author="Placeholder Author">Abbey Placeholder 14</a></li>
+      <li><a href="#book/15" data-author="Placeholder Author">Abbey Placeholder 15</a></li>
+      <li><a href="#book/16" data-author="Placeholder Author">Abbey Placeholder 16</a></li>
+      <li><a href="#book/17" data-author="Placeholder Author">Abbey Placeholder 17</a></li>
+      <li><a href="#book/18" data-author="Placeholder Author">Abbey Placeholder 18</a></li>
+      <li><a href="#book/19" data-author="Placeholder Author">Abbey Placeholder 19</a></li>
+      <li><a href="#book/20" data-author="Placeholder Author">Abbey Placeholder 20</a></li>
+      <li><a href="#book/21" data-author="Placeholder Author">Abbey Placeholder 21</a></li>
+      <li><a href="#book/22" data-author="Placeholder Author">Abbey Placeholder 22</a></li>
+      <li><a href="#book/23" data-author="Placeholder Author">Abbey Placeholder 23</a></li>
+      <li><a href="#book/24" data-author="Placeholder Author">Abbey Placeholder 24</a></li>
+      <li><a href="#book/25" data-author="Placeholder Author">Abbey Placeholder 25</a></li>
+      <li><a href="#book/26" data-author="Placeholder Author">Abbey Placeholder 26</a></li>
+      <li><a href="#book/27" data-author="Placeholder Author">Abbey Placeholder 27</a></li>
+      <li><a href="#book/28" data-author="Placeholder Author">Abbey Placeholder 28</a></li>
+      <li><a href="#book/29" data-author="Placeholder Author">Abbey Placeholder 29</a></li>
+    </ol>
+    <div id="editor-layer" hidden>
+      <div id="selection" class="sel"><span class="h" data-h="nw"></span><span class="h" data-h="ne"></span><span class="h" data-h="sw"></span><span class="h" data-h="se"></span></div>
+    </div>
+  </div>
+  <p id="image-error" hidden role="status">Artwork could not load. This mockup expects <code>docs/scenes/gothic.png</code> two folders up.</p>
+</main>
+
+<div class="book-tooltip" id="tooltip" hidden aria-hidden="true"><strong id="tooltip-title"></strong><span id="tooltip-author"></span></div>
+
+<aside class="statusbar">
+  <span id="status" role="status">Follow the little golden sparks.</span>
+  <code id="readout" hidden>x — · y —</code>
+  <button type="button" id="open-index">All 29 books &#8599;</button>
+</aside>
+
+<aside id="editor-panel" hidden aria-label="Box editor">
+  <h2>Edit boxes</h2>
+  <p class="help">Drag empty picture to draw the selected book's box. Drag inside it to move, drag a corner to resize. Arrow keys nudge 1px (Shift 10). [ and ] switch book. Edits are kept in this browser.</p>
+  <label>Book <select id="slot"></select></label>
+  <div class="row"><button type="button" id="prev">&larr; Prev</button><button type="button" id="next">Next &rarr;</button></div>
+  <div class="grid">
+    <label>x1<input type="number" data-edge="0" min="0" max="2752"></label>
+    <label>y1<input type="number" data-edge="1" min="0" max="1536"></label>
+    <label>x2<input type="number" data-edge="2" min="0" max="2752"></label>
+    <label>y2<input type="number" data-edge="3" min="0" max="1536"></label>
+  </div>
+  <p id="size"></p>
+  <p id="overlaps"></p>
+  <label>Zoom <select id="zoom"><option value="0">Fit</option><option value="0.25">25%</option><option value="0.5">50%</option><option value="1">100% (1 px = 1 master px)</option></select></label>
+  <div class="row"><button type="button" id="add-box">+ Add book</button><button type="button" id="remove-box">Remove</button></div>
+  <textarea id="box-output" readonly rows="9" spellcheck="false" aria-label="All boxes as an array"></textarea>
+  <div class="row"><button type="button" id="copy-boxes">Copy array</button><button type="button" id="reset-boxes">Reset all</button></div>
+</aside>
+
+<dialog id="index-dialog" aria-labelledby="index-title">
+  <div class="dialog-head"><h2 id="index-title">The display index</h2><button type="button" data-close>Close &times;</button></div>
+  <ol id="index-list"></ol>
+</dialog>
+
+<dialog id="book-dialog" aria-labelledby="book-title">
+  <div class="dialog-head"><span id="record"></span><button type="button" data-close autofocus>Return to the shelf &times;</button></div>
+  <h2 id="book-title"></h2>
+  <p id="book-author"></p>
+  <p id="book-copy">Placeholder entry. The real title, author and blurb will replace this once the shelf is stocked.</p>
+  <button type="button" id="purchase" aria-expanded="false" aria-controls="affiliate-note">Find a copy &#8599;</button>
+  <p id="affiliate-note" hidden>No retailer is connected. A future affiliate link may earn a commission at no extra cost to you.</p>
+</dialog>
+
+<noscript><p class="no-script">Enable JavaScript to explore the mapped books.</p></noscript>
+</body>
+</html>

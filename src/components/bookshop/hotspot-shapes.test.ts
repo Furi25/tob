@@ -1,7 +1,10 @@
 // Spec: docs/specs/bookshop-display.md (criterion #28)
 // Hotspot shapes: the book silhouette that drives the hover/click area, the glowing edge and the focus ring.
 import { describe, expect, it } from "vitest";
-import { HOTSPOTS, type Hotspot } from "./hotspots";
+import type { Hotspot } from "./hotspots";
+import { DEFAULT_SCENE } from "./scenes";
+
+const HOTSPOTS = DEFAULT_SCENE.hotspots;
 
 type Point = readonly [number, number];
 // The field is read through an optional view so this file type-checks before and after `shape` exists.

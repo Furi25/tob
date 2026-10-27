@@ -1,5 +1,12 @@
 .main {
-  padding: 0 16px 32px;
+  /*
+   * The page's fixed vertical chrome: the toolbar row plus the bottom padding. The scene subtracts it from
+   * the window height so the page never scrolls (bookshop.module.css reads --page-chrome).
+   */
+  --toolbar-height: 64px;
+  --page-bottom: 32px;
+  --page-chrome: calc(var(--toolbar-height) + var(--page-bottom));
+  padding: 0 16px var(--page-bottom);
 }
 
 /* Fixed height so the scene sits in the same place in the loading state, the page and the empty state. */
@@ -7,7 +14,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  min-height: 64px;
+  gap: 16px;
+  height: var(--toolbar-height);
 }
 
 .empty {

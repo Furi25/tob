@@ -24,8 +24,24 @@ model Book {
   /// { primary, surface, text, highlight }
   palette        Json?
   popularityRank Int      @unique
-  /// 1–25; null = not shown in the bookshop scene. Range enforced by a CHECK constraint in the migration.
-  displaySlot    Int?     @unique
+  /// Genre labels from the approved content (1–5, free text, most specific first); empty = none known.
+  genres         String[] @default([])
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+  placements     Placement[]
+}
+
+/// Where a book hangs in a scene. Scenes live in code (src/components/bookshop/scenes), so sceneId is not a foreign key.
+model Placement {
+  id      String @id @default(cuid())
+  /// Matches Scene.id.
+  sceneId String
+  /// 1..N for that scene. The floor is a CHECK constraint in the migration; the ceiling is checked by a test.
+  slot    Int
+  bookId  String
+  book    Book   @relation(fields: [bookId], references: [id], onDelete: Cascade)
+
+  @@unique([sceneId, slot])
+  @@unique([sceneId, bookId])
+  @@index([bookId])
 }

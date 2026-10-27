@@ -9,6 +9,7 @@ import path from "node:path";
 import { PrismaClient } from "@prisma/client";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { getDisplayBooks } from "../../src/server/display";
+import { isolatedSeedEnv } from "../support/content-import";
 
 const root = process.cwd();
 const prisma = new PrismaClient();
@@ -23,7 +24,7 @@ function assertTestDatabase(): void {
 }
 
 function runSeed(): void {
-  execSync("npx prisma db seed", { cwd: root, stdio: "pipe", timeout: 120_000 });
+  execSync("npx prisma db seed", { cwd: root, stdio: "pipe", timeout: 120_000, env: isolatedSeedEnv() });
 }
 
 function bookData(n: number, displaySlot: number | null) {

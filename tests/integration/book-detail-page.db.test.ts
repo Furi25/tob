@@ -9,6 +9,7 @@ import path from "node:path";
 import { Prisma, PrismaClient } from "@prisma/client";
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import { DEFAULT_PALETTE, getBookBySlug } from "../../src/server/books";
+import { isolatedSeedEnv } from "../support/content-import";
 import { isReadable, type PaletteInput } from "../support/contrast";
 
 const root = process.cwd();
@@ -24,7 +25,7 @@ function assertTestDatabase(): void {
 }
 
 function runSeed(): void {
-  execSync("npx prisma db seed", { cwd: root, stdio: "pipe", timeout: 120_000 });
+  execSync("npx prisma db seed", { cwd: root, stdio: "pipe", timeout: 120_000, env: isolatedSeedEnv() });
 }
 
 const SLUG = "detail-fixture";

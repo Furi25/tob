@@ -29,6 +29,11 @@ export default defineConfig({
         test: { name: "unit", include: ["src/**/*.test.ts"] },
       },
       {
+        // The cover fetcher (docs/specs/book-cover-fetcher.md): no database, no network.
+        extends: true,
+        test: { name: "tools", include: ["scripts/**/*.test.ts"], testTimeout: 60_000 },
+      },
+      {
         extends: true,
         test: {
           name: "integration",

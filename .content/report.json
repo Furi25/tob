@@ -1,0 +1,61 @@
+{
+  "generatedAt": "2026-10-26T20:59:31.106Z",
+  "drafts": [
+    {
+      "slug": "anathem",
+      "draftSha256": "f16586b9953b57453af194882316962c224dc9f9deed825076295719e54052d4",
+      "errors": [],
+      "warnings": [
+        {
+          "field": "needsReview",
+          "rule": "needs-review",
+          "message": "the drafter listed points a person should check"
+        },
+        {
+          "field": "facts.0",
+          "rule": "verification",
+          "message": "not-found: https://en.wikipedia.org/wiki/Anathem"
+        },
+        {
+          "field": "facts.1",
+          "rule": "verification",
+          "message": "not-found: https://en.wikipedia.org/wiki/Anathem"
+        },
+        {
+          "field": "facts.2",
+          "rule": "verification",
+          "message": "not-found: https://en.wikipedia.org/wiki/Anathem"
+        }
+      ],
+      "verification": {
+        "facts": [
+          {
+            "claim": "published in 2008",
+            "sourceUrl": "https://en.wikipedia.org/wiki/Anathem",
+            "result": "not-found"
+          },
+          {
+            "claim": "937 pages in its first hardcover edition",
+            "sourceUrl": "https://en.wikipedia.org/wiki/Anathem",
+            "result": "not-found"
+          },
+          {
+            "claim": "won the Locus Award for Best Science Fiction Novel in 2009",
+            "sourceUrl": "https://en.wikipedia.org/wiki/Anathem",
+            "result": "not-found"
+          },
+          {
+            "claim": "Snow Crash, which appeared in 1992",
+            "sourceUrl": "https://www.bu.edu/bostonia/fall08/stephenson/",
+            "result": "verified"
+          },
+          {
+            "claim": "in 2022 he launched Lamina1",
+            "sourceUrl": "https://en.wikipedia.org/wiki/Neal_Stephenson",
+            "result": "verified"
+          }
+        ]
+      }
+    }
+  ]
+}

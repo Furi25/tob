@@ -1,6 +1,6 @@
 # Bookstore display — percentage-mapped artwork
 
-Open `index.html` directly in a browser. This is a new concept; earlier mockups are unchanged.
+Open `index.html` directly in a browser. This is the only mockup kept in `mockups/`.
 
 ## Full-screen sparkle revision
 
