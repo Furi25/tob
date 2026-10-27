@@ -67,12 +67,10 @@ h2{font:34px/1.1 var(--serif);margin:0 0 14px}
 .editing #hotspots a{pointer-events:none;background:#ff373733;outline:1px solid #ff6b6b}
 .editing .sparkle-edge{display:none}
 #editor-layer{position:absolute;inset:0;z-index:5;cursor:crosshair;touch-action:none}
-.sel{position:absolute;outline:2px solid #7dffb2;background:#7dffb222;pointer-events:none}
-.sel .h{position:absolute;width:10px;height:10px;background:#7dffb2;border:1px solid #06210f;pointer-events:auto}
-.sel [data-h=nw]{left:-6px;top:-6px;cursor:nwse-resize}
-.sel [data-h=ne]{right:-6px;top:-6px;cursor:nesw-resize}
-.sel [data-h=sw]{left:-6px;bottom:-6px;cursor:nesw-resize}
-.sel [data-h=se]{right:-6px;bottom:-6px;cursor:nwse-resize}
+#selection{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.sel-shape{fill:#7dffb222;stroke:#7dffb2;stroke-width:2;vector-effect:non-scaling-stroke;pointer-events:none}
+.sel-dot{fill:#7dffb2;stroke:#06210f;stroke-width:1;vector-effect:non-scaling-stroke;pointer-events:auto;cursor:grab}
+.sel-dot.is-active{fill:#fff2a0}
 #editor-panel{position:fixed;top:60px;right:0;bottom:56px;width:270px;z-index:25;overflow:auto;display:grid;align-content:start;gap:10px;padding:12px;background:#1a1210f5;border-left:1px solid #785838;font-size:11px}
 #editor-panel h2{font-size:18px;margin:0}
 #editor-panel p{margin:0}

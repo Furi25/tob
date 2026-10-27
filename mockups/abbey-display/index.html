@@ -13,7 +13,7 @@
   <div class="controls">
     <button type="button" id="fit-scene" aria-pressed="false">Fill screen</button>
     <button type="button" id="markers" aria-pressed="false">Show mapping</button>
-    <button type="button" id="edit-boxes" aria-pressed="false">Edit boxes</button>
+    <button type="button" id="edit-boxes" aria-pressed="false">Edit outlines</button>
   </div>
 </header>
 
@@ -52,7 +52,7 @@
       <li><a href="#book/29" data-author="Placeholder Author">Abbey Placeholder 29</a></li>
     </ol>
     <div id="editor-layer" hidden>
-      <div id="selection" class="sel"><span class="h" data-h="nw"></span><span class="h" data-h="ne"></span><span class="h" data-h="sw"></span><span class="h" data-h="se"></span></div>
+      <svg id="selection" viewBox="0 0 2752 1536" preserveAspectRatio="none" aria-hidden="true"></svg>
     </div>
   </div>
   <p id="image-error" hidden role="status">Artwork could not load. This mockup expects <code>docs/scenes/gothic.png</code> two folders up.</p>
@@ -67,16 +67,16 @@
 </aside>
 
 <aside id="editor-panel" hidden aria-label="Box editor">
-  <h2>Edit boxes</h2>
-  <p class="help">Drag empty picture to draw the selected book's box. Drag inside it to move, drag a corner to resize. Arrow keys nudge 1px (Shift 10). [ and ] switch book. Edits are kept in this browser.</p>
+  <h2>Edit outlines</h2>
+  <p class="help">Drag a green point to move it. Double-click an edge to add a point, double-click a point (or press Delete) to remove it, minimum 3. Drag inside the outline to move the whole book. Arrow keys nudge the selected point, or the whole book if none is selected (Shift = 10 px). Esc deselects the point. [ and ] switch book. Edits are kept in this browser.</p>
   <label>Book <select id="slot"></select></label>
   <div class="row"><button type="button" id="prev">&larr; Prev</button><button type="button" id="next">Next &rarr;</button></div>
+  <p id="vertex-label"></p>
   <div class="grid">
-    <label>x1<input type="number" data-edge="0" min="0" max="2752"></label>
-    <label>y1<input type="number" data-edge="1" min="0" max="1536"></label>
-    <label>x2<input type="number" data-edge="2" min="0" max="2752"></label>
-    <label>y2<input type="number" data-edge="3" min="0" max="1536"></label>
+    <label>x<input type="number" data-axis="0" min="0" max="2752" disabled></label>
+    <label>y<input type="number" data-axis="1" min="0" max="1536" disabled></label>
   </div>
+  <div class="row"><button type="button" id="add-point">+ Add point</button><button type="button" id="remove-point">Remove point</button></div>
   <p id="size"></p>
   <p id="overlaps"></p>
   <label>Zoom <select id="zoom"><option value="0">Fit</option><option value="0.25">25%</option><option value="0.5">50%</option><option value="1">100% (1 px = 1 master px)</option></select></label>

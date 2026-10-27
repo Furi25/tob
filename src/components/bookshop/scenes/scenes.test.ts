@@ -81,42 +81,27 @@ describe("The Abbey (Scope, Resolved decisions, Appendix)", () => {
   });
 
   describe.each(Object.entries(ABBEY_BOXES).map(([slot, box]) => [Number(slot), box] as const))(
-    "slot %i matches its appendix box",
+    "slot %i still marks its appendix book",
     (slot, [x1, y1, x2, y2]) => {
       const { width: W, height: H } = ABBEY_MASTER_SIZE;
-      // 0.1% of the artwork, in master px. Rounding outwards may add up to this much on each side (criterion 5).
-      const stepX = W / 1000;
-      const stepY = H / 1000;
-      const eps = 0.01;
 
-      it("has a rectangle that contains the box and is at most one 0.1% step larger on each side", () => {
+      // docs/specs/abbey-polygon-outlines.md AP #2: the traced polygon replaces the box but not the book it marks.
+      it("has a silhouette whose bounding box overlaps the appendix box by at least 70% of their union", () => {
         const h = abbey?.hotspots.find((x) => x.slot === slot);
         expect(h, `slot ${slot} exists`).toBeDefined();
         if (!h) return;
-        const left = (h.rect.left / 100) * W;
-        const right = ((h.rect.left + h.rect.width) / 100) * W;
-        const top = (h.rect.top / 100) * H;
-        const bottom = ((h.rect.top + h.rect.height) / 100) * H;
-        expect(x1 - left, "left side").toBeGreaterThanOrEqual(-eps);
-        expect(x1 - left, "left side").toBeLessThanOrEqual(stepX + eps);
-        expect(right - x2, "right side").toBeGreaterThanOrEqual(-eps);
-        expect(right - x2, "right side").toBeLessThanOrEqual(stepX + eps);
-        expect(y1 - top, "top side").toBeGreaterThanOrEqual(-eps);
-        expect(y1 - top, "top side").toBeLessThanOrEqual(stepY + eps);
-        expect(bottom - y2, "bottom side").toBeGreaterThanOrEqual(-eps);
-        expect(bottom - y2, "bottom side").toBeLessThanOrEqual(stepY + eps);
-      });
-
-      it("has a 4-point shape whose corners map back to the box within 0.5 master px", () => {
-        const h = abbey?.hotspots.find((x) => x.slot === slot);
-        expect(h, `slot ${slot} exists`).toBeDefined();
-        if (!h) return;
-        expect(h.shape).toHaveLength(4);
         const px = toArtworkPx(h, ABBEY_MASTER_SIZE);
-        for (const [cx, cy] of [[x1, y1], [x2, y1], [x2, y2], [x1, y2]] as const) {
-          const nearest = Math.min(...px.map(([x, y]) => Math.hypot(x - cx, y - cy)));
-          expect(nearest, `corner (${cx}, ${cy})`).toBeLessThanOrEqual(0.5);
-        }
+        const bx1 = Math.min(...px.map((p) => p[0]));
+        const bx2 = Math.max(...px.map((p) => p[0]));
+        const by1 = Math.min(...px.map((p) => p[1]));
+        const by2 = Math.max(...px.map((p) => p[1]));
+        expect(bx1).toBeGreaterThanOrEqual(0);
+        expect(bx2).toBeLessThanOrEqual(W);
+        expect(by1).toBeGreaterThanOrEqual(0);
+        expect(by2).toBeLessThanOrEqual(H);
+        const inter = Math.max(0, Math.min(x2, bx2) - Math.max(x1, bx1)) * Math.max(0, Math.min(y2, by2) - Math.max(y1, by1));
+        const union = (x2 - x1) * (y2 - y1) + (bx2 - bx1) * (by2 - by1) - inter;
+        expect(inter / union, `slot ${slot} overlap`).toBeGreaterThanOrEqual(0.7);
       });
     },
   );

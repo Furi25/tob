@@ -101,7 +101,7 @@ declare function hotspotFromPixels(
 3. The tester opens `/shops/<id>?hotspots=1` at 1440px and 1024px and compares each outline to its book (criterion 26). Defects are filed in `docs/bugs/` with the slot number and which way the edge is off.
 4. The author corrects the vertices in master pixels. Repeat until no defect is left.
 
-**Measuring aid.** Measuring on the master by eye in an image editor is slow and error-prone for 30+ books. The box editor in `mockups/abbey-display/` was used for the Abbey. It is a mockup, so it is not shipped and not tested, and its output is the same `[x1, y1, x2, y2]` list as above. Whether the real `?hotspots=1` overlay should also show the cursor position in master pixels is Open Question 8.
+**Measuring aid.** Measuring on the master by eye in an image editor is slow and error-prone for 30+ books. The box editor in `mockups/abbey-display/` was used for the Abbey. It is a mockup, so it is not shipped and not tested, and its output is the same `[x1, y1, x2, y2]` list as above. [abbey-polygon-outlines.md](abbey-polygon-outlines.md) extends it to export polygons. Whether the real `?hotspots=1` overlay should also show the cursor position in master pixels is Open Question 8.
 
 Automatic detection of "edge not on the book" (for example, by sampling the artwork under the edge) was not chosen. It can't tell a book from the shelf behind it reliably in a painted image, so it would add a second source of wrong answers.
 
@@ -386,7 +386,7 @@ Per scene, as in [bookshop-display.md](bookshop-display.md): **empty** (no place
 - **Masters may be JPEGs, or PNGs converted from JPEGs.** A PNG made from a JPEG is lossless in name only: the artifacts are already in it. Check each master at 400% zoom for colour noise round the edges. If it's there, either accept it or re-export from the source; it's not a code change.
 - **Lossless WebP of a JPEG-origin picture can be heavy.** Noise makes lossless files bigger. The existing weight check (a 2064px file over 3 MB goes back to the architect) applies to every scene. If a scene fails it, the decision is between accepting the weight and a spec change to allow lossy WebP for that scene. We have not made that change.
 - **Repo weight.** Each scene adds a master of several MB in `docs/` and about 12–15 MB of served WebP in three sizes. Fine for a handful of scenes. Revisit if there are dozens.
-- **We deliberately did not** build a polygon editor, an automatic outline detector, or a runtime scene loader. Each is a large piece of work for an artwork set that changes rarely.
+- **We deliberately did not** build a polygon editor into the product, an automatic outline detector, or a runtime scene loader. Each is a large piece of work for an artwork set that changes rarely. (A throwaway polygon editor as a mockup is covered by [abbey-polygon-outlines.md](abbey-polygon-outlines.md).)
 
 ## Breaking Changes
 
