@@ -47,7 +47,6 @@ export async function putFixture(overrides: Partial<FixtureBook> = {}): Promise<
       palette: book.palette === null ? Prisma.DbNull : book.palette,
       slug: FIXTURE_SLUG,
       popularityRank: FIXTURE_RANK,
-      displaySlot: null,
     },
   });
   return book;

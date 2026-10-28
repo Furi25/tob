@@ -15,6 +15,9 @@ export function BookCover({ title, author, coverImage }: Props) {
   // Decorative: the <h1> and by-line already carry the title and author.
   return (
     <div className={styles.cover} aria-hidden="true">
+      <span className={styles.spark} />
+      <span className={styles.spark} />
+      <span className={styles.spark} />
       <span className={styles.coverTitle}>{title}</span>
       <span className={styles.coverAuthor}>{author}</span>
     </div>

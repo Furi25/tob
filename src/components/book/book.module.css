@@ -1,104 +1,272 @@
-/* Book detail page (docs/specs/book-detail-page.md). Colours come only from the --book-* palette. */
+/* Book detail page: the open-book window (docs/specs/book-detail-open-book.md). Colours come only from --book-*. */
 
 .page {
-  min-height: 100vh;
-  padding: 32px 16px 48px;
+  --chrome: 5.5rem;
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  padding: 3.5rem 1rem 1.5rem;
   background:
-    linear-gradient(rgb(20 12 8 / 0.8), rgb(20 12 8 / 0.8)),
-    var(--book-backdrop) center / cover no-repeat fixed,
+    radial-gradient(90% 80% at 50% 50%, rgb(20 10 4 / 0.1), rgb(20 10 4 / 0.4)),
+    var(--book-backdrop) center / cover no-repeat,
     var(--wood-dark);
-}
-
-/* All text sits on this solid panel, never on the artwork. */
-.panel {
-  max-width: 1100px;
-  margin-inline: auto;
-  padding: clamp(20px, 4vw, 48px);
-  background: var(--book-surface);
   color: var(--book-text);
-  border: 2px solid var(--book-primary);
-  box-shadow: 8px 8px 0 rgb(0 0 0 / 0.55);
-}
-
-.panel a {
-  color: var(--book-highlight);
-}
-
-.panel a:focus-visible {
-  outline: 3px solid var(--book-highlight);
-  outline-offset: 3px;
 }
 
 .back {
+  position: absolute;
+  top: 0.9rem;
+  left: 1.1rem;
+  z-index: 3;
+  padding: 0.35rem 0.7rem;
+  background: var(--wood-dark);
+  color: var(--amber-light);
+  border: 1px solid var(--brass);
   font: 14px/1.4 var(--font-retro);
   text-underline-offset: 3px;
 }
 
-.layout {
-  display: grid;
-  gap: 32px;
-  margin-top: 24px;
+.back::before {
+  content: "\2190\00a0" / "";
 }
 
-@media (min-width: 840px) {
-  .layout {
-    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-    align-items: start;
-    gap: 48px;
+.back:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 3px;
+}
+
+.buyLink:focus-visible,
+.pane:focus-visible {
+  outline: 3px solid var(--book-highlight);
+  outline-offset: 3px;
+}
+
+/* The largest box with the book's ratio that fits under the page chrome; everything inside scales in cq units. */
+.stage {
+  position: relative;
+  width: min(100%, calc((100vh - var(--chrome)) * var(--art-w) / var(--art-h)));
+  width: min(100%, calc((100dvh - var(--chrome)) * var(--art-w) / var(--art-h)));
+  max-width: 1920px;
+  aspect-ratio: var(--art-w) / var(--art-h);
+  container-type: size;
+  --fs-body: clamp(0.75rem, 1.4cqw, 1.2rem);
+  --fs-small: clamp(0.62rem, 1cqw, 0.85rem);
+  --fs-h1: clamp(1.4rem, 3.4cqw, 3rem);
+  --fs-h2: clamp(0.95rem, 1.9cqw, 1.7rem);
+  --gap: 1.4cqw;
+  animation: open 0.6s steps(6) both;
+}
+
+/* Opacity only: a transform would move every box while it runs. */
+@keyframes open {
+  from {
+    opacity: 0;
   }
 }
 
-.coverColumn {
-  justify-self: center;
-  width: 100%;
-  max-width: 320px;
+/*
+ * Parchment-coloured base, painted only inside the paper area (background-clip + padding). The image sits
+ * on top of it, so it is invisible while the image shows, and the pages stay readable if the image fails.
+ */
+.paper {
+  position: absolute;
+  inset: 0;
+  padding: 3.5% 6% 8% 6%;
+  background-color: var(--book-parchment);
+  background-clip: content-box;
 }
 
-/* Placeholder hardcover: cloth, spine and foil are pseudo-elements so the lettering sits on flat colour. */
+.art {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: auto;
+  filter: drop-shadow(0 1.4cqw 1.2cqw rgb(0 0 0 / 0.5));
+  pointer-events: none;
+}
+
+.leaf {
+  position: absolute;
+  z-index: 2;
+  top: var(--top);
+  left: var(--left);
+  width: var(--width);
+  height: var(--height);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  color: var(--book-text);
+}
+
+.leftLeaf {
+  padding-right: 1cqw;
+}
+
+.rightLeaf {
+  padding-left: 0.4cqw;
+}
+
+.coverSlot {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+}
+
+.titleBlock {
+  padding-top: var(--gap);
+  text-align: center;
+}
+
+.title {
+  margin: 0;
+  font: 400 var(--fs-h1) / 1.05 Georgia, "Iowan Old Style", "Times New Roman", serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
+
+.byline {
+  margin: 0.5cqw 0 0;
+  font-size: calc(var(--fs-body) * 0.95);
+  font-style: italic;
+  overflow-wrap: anywhere;
+}
+
+.tagline {
+  margin: 0.6cqw 0 0;
+  color: var(--book-highlight);
+  font-size: var(--fs-body);
+  overflow-wrap: anywhere;
+}
+
+.tagline::before,
+.tagline::after {
+  content: "\2766" / "";
+  margin: 0 0.5em;
+  opacity: 0.7;
+}
+
+.buy {
+  margin-top: var(--gap);
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+}
+
+.buyLink {
+  flex: none;
+  max-width: 100%;
+  padding: 0.7cqw 1.4cqw;
+  background: var(--book-primary);
+  color: var(--book-surface);
+  font: bold var(--fs-small) / 1.2 var(--font-retro);
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  box-shadow:
+    0 0 0 0.25cqw var(--book-text),
+    0.35cqw 0.35cqw 0 0.25cqw var(--book-text);
+  transition:
+    transform 0.12s steps(2),
+    box-shadow 0.12s steps(2);
+}
+
+.buyLink:hover {
+  transform: translate(0.25cqw, 0.25cqw);
+  box-shadow:
+    0 0 0 0.25cqw var(--book-text),
+    0.1cqw 0.1cqw 0 0.25cqw var(--book-text);
+}
+
+.note {
+  margin: 0;
+  font: var(--fs-small) / 1.35 var(--font-retro);
+}
+
+/* Placeholder hardcover and real cover */
 .cover {
   position: relative;
+  height: 100%;
+  max-width: 100%;
   aspect-ratio: 2 / 3;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 18% 12% 14% 20%;
+  justify-content: flex-end;
+  gap: 0.4cqw;
+  padding: 1.2cqw;
   background: var(--book-primary);
   color: var(--book-surface);
-  box-shadow: 10px 10px 0 rgb(0 0 0 / 0.55);
-}
-
-.cover::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 9%;
-  background: linear-gradient(90deg, rgb(0 0 0 / 0.35), rgb(0 0 0 / 0.1) 70%, rgb(255 255 255 / 0.15));
-}
-
-.cover::after {
-  content: "";
-  position: absolute;
-  inset: 5% 5% 5% 13%;
-  border: 2px solid var(--book-surface);
-  pointer-events: none;
+  box-shadow: 0.5cqw 0.6cqw 0 rgb(0 0 0 / 0.3);
 }
 
 .coverTitle {
   position: relative;
-  font: bold clamp(1.5rem, 3vw, 2rem) / 1.15 var(--font-retro);
+  font: bold calc(var(--fs-body) * 1.25) / 1.15 var(--font-retro);
   overflow-wrap: anywhere;
 }
 
 .coverAuthor {
   position: relative;
-  font: bold 1.5rem / 1.2 var(--font-retro);
+  font: var(--fs-small) / 1.2 var(--font-retro);
+  letter-spacing: 0.08em;
   overflow-wrap: anywhere;
 }
 
+.spark {
+  position: absolute;
+  width: 0.4cqw;
+  height: 0.4cqw;
+  background: var(--book-surface);
+  animation: twinkle 2.4s steps(1) infinite;
+}
+
+.spark:nth-of-type(1) {
+  top: 12%;
+  left: 18%;
+}
+
+.spark:nth-of-type(2) {
+  top: 28%;
+  left: 78%;
+  animation-delay: 0.8s;
+}
+
+.spark:nth-of-type(3) {
+  top: 46%;
+  left: 30%;
+  animation-delay: 1.6s;
+}
+
+@keyframes twinkle {
+  0%,
+  60% {
+    opacity: 0;
+  }
+
+  61%,
+  100% {
+    opacity: 1;
+    box-shadow:
+      0.4cqw 0 var(--book-surface),
+      -0.4cqw 0 var(--book-surface),
+      0 0.4cqw var(--book-surface),
+      0 -0.4cqw var(--book-surface);
+  }
+}
+
 .coverFrame {
+  height: 100%;
+  max-width: 100%;
   aspect-ratio: 2 / 3;
-  box-shadow: 10px 10px 0 rgb(0 0 0 / 0.55);
+  box-shadow: 0.5cqw 0.6cqw 0 rgb(0 0 0 / 0.3);
 }
 
 .coverImage {
@@ -108,62 +276,242 @@
   object-fit: contain;
 }
 
-.title {
-  margin: 0;
-  font-size: clamp(2rem, 4vw, 3rem);
-  line-height: 1.1;
-  overflow-wrap: anywhere;
+/* Right page */
+.running {
+  padding-bottom: 0.7cqw;
+  border-bottom: 1px solid var(--book-text);
+  font: var(--fs-small) / 1.3 var(--font-retro);
+  letter-spacing: 0.18em;
+  text-align: center;
+  text-transform: uppercase;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
-.byline {
-  margin: 12px 0 0;
-  font: 1rem/1.4 var(--font-retro);
+/* The only scroller on the page. */
+.pane {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 1cqw 1cqw 1cqw 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--book-highlight) transparent;
+  mask-image: linear-gradient(transparent 0, #000 10px, #000 calc(100% - 22px), transparent 100%);
 }
 
-.tagline {
-  margin: 20px 0 0;
-  font-size: 1.25rem;
-  font-style: italic;
-  line-height: 1.4;
+.section + .section {
+  margin-top: 2cqw;
 }
 
 .section h2 {
-  margin: 32px 0 8px;
-  font: bold 0.875rem/1.4 var(--font-retro);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  margin: 0 0 0.8cqw;
+  text-align: center;
+  font-weight: 400;
+  font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+}
+
+.chapter {
+  display: block;
+  margin-bottom: 0.3cqw;
+  color: var(--book-highlight);
+  font: var(--fs-small) / 1.2 var(--font-retro);
+  letter-spacing: 0.25em;
+}
+
+.heading {
+  display: block;
+  font-size: var(--fs-h2);
+  font-style: italic;
+  overflow-wrap: anywhere;
+}
+
+.section h2::after {
+  content: "\25C6" / "";
+  display: block;
+  margin-top: 0.6cqw;
+  color: var(--book-highlight);
+  font-size: 0.6rem;
+  line-height: 1;
+  background: linear-gradient(
+      90deg,
+      transparent,
+      var(--book-highlight) 20%,
+      var(--book-highlight) 44%,
+      transparent 44%,
+      transparent 56%,
+      var(--book-highlight) 56%,
+      var(--book-highlight) 80%,
+      transparent
+    )
+    center / 100% 1px no-repeat;
 }
 
 .section p {
   margin: 0;
-  font-size: 1.0625rem;
-  line-height: 1.65;
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  text-align: justify;
+  hyphens: auto;
+  overflow-wrap: anywhere;
 }
 
-.buy {
-  margin-top: 36px;
-  padding-top: 20px;
-  border-top: 1px solid var(--book-primary);
+.section p + p {
+  margin-top: 0.9cqw;
 }
 
-.buyLink {
-  display: inline-block;
-  padding: 10px 18px;
-  border: 2px solid var(--book-highlight);
-  font: bold 0.9375rem/1.2 var(--font-retro);
-  text-decoration: none;
-}
-
-.note {
-  margin: 12px 0 0;
-  font: 0.875rem/1.5 var(--font-retro);
-}
-
-.notFound {
-  margin-top: 24px;
+.section p:first-of-type::first-letter {
+  float: left;
+  padding: 0.06em 0.1em 0 0;
+  color: var(--book-highlight);
+  font: 400 3.4em / 0.85 Georgia, "Iowan Old Style", "Times New Roman", serif;
 }
 
 .notFound p {
-  margin: 16px 0 0;
+  margin: 1cqw 0 0;
+  font-size: var(--fs-body);
   line-height: 1.6;
+}
+
+/*
+ * Too small for two pages: no book image, one parchment panel in the old order, and the page scrolls.
+ * Keep these breakpoints in step with the spec (Small screens and short windows).
+ */
+@media (max-width: 699.98px), (max-height: 479.98px) {
+  .page {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+    display: block;
+    padding: 1rem 0.75rem 2rem;
+  }
+
+  .back {
+    position: static;
+    display: inline-block;
+    margin-bottom: 0.75rem;
+  }
+
+  .stage {
+    width: 100%;
+    max-width: 720px;
+    margin-inline: auto;
+    aspect-ratio: auto;
+    container-type: normal;
+    animation: none;
+    --fs-body: 1.0625rem;
+    --fs-small: 0.875rem;
+    --fs-h1: clamp(1.75rem, 7vw, 2.5rem);
+    --fs-h2: 1.4rem;
+    --gap: 1rem;
+  }
+
+  .paper {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem;
+    background-clip: border-box;
+    box-shadow: 6px 6px 0 rgb(0 0 0 / 0.55);
+  }
+
+  .art {
+    display: none;
+  }
+
+  /* The pages dissolve into one column: cover, title, sections, then the buy block. */
+  .leaf,
+  .titleBlock {
+    display: contents;
+  }
+
+  .pane {
+    order: 1;
+  }
+
+  .buy {
+    order: 2;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .title {
+    margin-top: 1rem;
+  }
+
+  .coverSlot {
+    flex: none;
+    margin-bottom: 0;
+  }
+
+  .cover,
+  .coverFrame {
+    height: auto;
+    width: 100%;
+    max-width: 240px;
+  }
+
+  .cover {
+    gap: 0.4rem;
+    padding: 1rem;
+  }
+
+  .spark {
+    width: 4px;
+    height: 4px;
+  }
+
+  .running {
+    display: none;
+  }
+
+  .pane {
+    overflow: visible;
+    padding: 1rem 0 0;
+    mask-image: none;
+  }
+
+  .section + .section {
+    margin-top: 2rem;
+  }
+
+  .byline,
+  .tagline {
+    margin-top: 0.5rem;
+  }
+
+  .buyLink {
+    padding: 0.6rem 1rem;
+    box-shadow:
+      0 0 0 2px var(--book-text),
+      3px 3px 0 2px var(--book-text);
+  }
+
+  .buyLink:hover {
+    box-shadow:
+      0 0 0 2px var(--book-text),
+      1px 1px 0 2px var(--book-text);
+  }
+
+  .section h2::after {
+    margin-top: 0.5rem;
+  }
+
+  .notFound p {
+    margin-top: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page,
+  .page *,
+  .page *::before,
+  .page *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .spark {
+    opacity: 1;
+  }
 }

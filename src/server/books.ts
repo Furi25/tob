@@ -14,12 +14,15 @@ export const slugSchema = z
 
 export type Palette = { primary: string; surface: string; text: string; highlight: string };
 
-/** The bookshop's dark wood and amber. Passes the readability rule below. */
+/** Darkest paper tone under the text areas of the open-book image (the contrast baseline for ink and accents). */
+export const PARCHMENT = "#ddbc8b";
+
+/** Dark ink on the parchment; `primary`/`surface` colour the cover plate and the buy button. */
 export const DEFAULT_PALETTE: Palette = {
-  primary: "#b68953",
-  surface: "#2b1c12",
-  text: "#f3e3c3",
-  highlight: "#ffd590",
+  primary: "#7a2e0a",
+  surface: "#fff6dc",
+  text: "#3a2410",
+  highlight: "#7a2e0a",
 };
 
 const hex = z.string().regex(/^#[0-9a-fA-F]{6}$/);
@@ -42,7 +45,7 @@ function contrast(a: string, b: string): number {
 
 function isReadable(p: Palette): boolean {
   return (
-    contrast(p.text, p.surface) >= 4.5 && contrast(p.highlight, p.surface) >= 4.5 && contrast(p.surface, p.primary) >= 3
+    contrast(p.text, PARCHMENT) >= 4.5 && contrast(p.highlight, PARCHMENT) >= 4.5 && contrast(p.surface, p.primary) >= 4.5
   );
 }
 

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" data-book="dune" data-mode="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dune · Book asset · Tree of Books mockup</title>
+<link rel="stylesheet" href="book-asset.css">
+</head>
+<body>
+<!-- The PNG has a checkerboard baked in. Neutral grey/white pixels (R≈B) become transparent; warm pixels stay. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="key-checker" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+    <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  25 0 -25 0 0"/>
+  </filter>
+</svg>
+<canvas id="px" aria-hidden="true"></canvas>
+
+<nav class="crumbs" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="#">Tree of Books</a></li>
+    <li><a href="#">The Abbey</a></li>
+    <li><a href="#" aria-current="page">Dune</a></li>
+  </ol>
+</nav>
+
+<main class="stage" aria-labelledby="title">
+  <div class="art" aria-hidden="true"></div>
+
+  <section class="page left" aria-label="About this edition">
+    <div class="plate-wrap">
+      <div class="plate" role="img" aria-label="Dune cover">
+        <span class="sun"></span><span class="dunes"></span>
+        <span class="spark s1"></span><span class="spark s2"></span><span class="spark s3"></span>
+      </div>
+    </div>
+    <header class="titleblock">
+      <h1 id="title">Dune</h1>
+      <p class="byline">by Frank Herbert</p>
+      <p class="tagline">Fear is the mind-killer.</p>
+    </header>
+    <div class="buyrow">
+      <a class="buy" href="#">Buy Dune</a>
+      <p class="note">We may earn a commission if you buy through this link.</p>
+    </div>
+  </section>
+
+  <section class="page right" aria-label="Book details">
+    <div class="running">Dune · Frank Herbert</div>
+    <div class="scroll" tabindex="0" role="region" aria-label="Book details, scrollable">
+      <section>
+        <h2><small>Chapter I</small><span>What it's about</span></h2>
+        <p class="drop">Paul Atreides arrives on the desert planet Arrakis as rival powers compete for control of a crucial resource. His family has been handed the most dangerous fief in the empire, and a quiet betrayal is already underway.</p>
+        <p>What begins as political intrigue becomes a story of survival, prophecy and the slow reshaping of a young man into something much larger than himself.</p>
+      </section>
+      <section>
+        <h2><small>Chapter II</small><span>Why people are reading it</span></h2>
+        <p class="drop">A new generation has met the story through film and games, and keeps finding that the book is stranger, slower and more philosophical than the adaptations suggest.</p>
+        <p>Readers talk about the appendices, the invented terms and the feeling of being dropped into a world that does not explain itself.</p>
+      </section>
+      <section>
+        <h2><small>Chapter III</small><span>Why it matters</span></h2>
+        <p class="drop">Its world links ecology, empire, religion and the dangers of charismatic leadership. It helped define what a science fiction world could be: layered, lived in and political.</p>
+        <p>It is also a warning: the hero is not always the answer, and the people who follow him pay for it.</p>
+      </section>
+      <section>
+        <h2><small>Chapter IV</small><span>About the author</span></h2>
+        <p class="drop">Frank Herbert (1920–1986) worked as a journalist before turning to fiction. Research into sand dune stabilisation in Oregon sparked the idea for Arrakis.</p>
+        <p>He wrote five sequels, each questioning the myth of the previous one.</p>
+      </section>
+    </div>
+  </section>
+</main>
+
+<div class="controls" role="group" aria-label="Mockup controls">
+  <label>Book style
+    <select id="book">
+      <option value="dune">Dune — desert gold</option>
+      <option value="1984">1984 — grey &amp; red</option>
+      <option value="circus">The Night Circus — black, white, red</option>
+    </select>
+  </label>
+  <button id="mode" type="button">Day / night shop</button>
+</div>
+<script src="book-asset.js"></script>
+</body>
+</html>

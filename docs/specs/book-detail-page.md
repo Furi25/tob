@@ -1,5 +1,7 @@
 # Book Detail Page
 
+> **Layout and palette are superseded by [book-detail-open-book.md](book-detail-open-book.md)** (open-book window, new palette roles). Content, routing, metadata, 404 and buy-link rules in this spec still apply.
+
 ## Goal
 
 Each book in the shop gets its own page at `/books/[slug]`. A reader who clicks a book in the bookshop scene, or picks one from the "On display" sidebar, lands on a page that shows the book up close. It has a large cover, the title and author, a one-line hook, and short editorial sections: what the book is about, why people are reading it, why it matters, and who wrote it. A buying link is added once there is a real one. Today every link from the landing page returns a 404, so the shop has nothing behind its shelves.

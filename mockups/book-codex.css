@@ -1,0 +1,90 @@
+/* Per-book theme = one block of custom properties. This is the hook for custom styles per book. */
+:root {
+  --font-head: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --font-body: "Palatino Linotype", Palatino, Georgia, serif;
+}
+[data-book="dune"][data-mode="dark"]   { --bg:#1a1209; --bg2:#2b1b0c; --panel:#241709; --ink:#f0e2c4; --muted:#b9a27a; --accent:#e0a53a; --line:#5a4120; --cover1:#c8782a; --cover2:#4a1f0b; }
+[data-book="dune"][data-mode="light"]  { --bg:#efe0bd; --bg2:#d9bd85; --panel:#f8eed3; --ink:#2b1b0c; --muted:#6e5630; --accent:#a45f10; --line:#c9a869; --cover1:#e49a3d; --cover2:#6b2c0e; }
+[data-book="1984"][data-mode="dark"]   { --bg:#0f1011; --bg2:#1b1d1f; --panel:#18191b; --ink:#e6e6e3; --muted:#9a9c9e; --accent:#e0312b; --line:#3a3c3f; --cover1:#2a2c2e; --cover2:#8e1b17; }
+[data-book="1984"][data-mode="light"]  { --bg:#d8d9d6; --bg2:#bfc1be; --panel:#ececea; --ink:#141516; --muted:#555759; --accent:#b8201b; --line:#a5a7a4; --cover1:#4a4c4e; --cover2:#b8201b; }
+[data-book="circus"][data-mode="dark"] { --bg:#09090b; --bg2:#17080b; --panel:#111114; --ink:#f5f2ee; --muted:#a8a29e; --accent:#d1202f; --line:#3a2a2c; --cover1:#111; --cover2:#6d0f18; }
+[data-book="circus"][data-mode="light"]{ --bg:#f1ece6; --bg2:#ddd3c8; --panel:#fbf8f4; --ink:#121212; --muted:#5d5651; --accent:#b3141f; --line:#cdbfb2; --cover1:#fff; --cover2:#b3141f; }
+
+* { box-sizing: border-box; margin: 0; }
+html, body { height: 100%; overflow: hidden; } /* the page itself never scrolls */
+body {
+  background: radial-gradient(120% 90% at 50% 0%, var(--bg2), var(--bg) 70%);
+  color: var(--ink); font-family: var(--font-body);
+  display: grid; place-items: center; padding: 3.5rem 1rem 4rem;
+  transition: background .4s, color .4s;
+}
+#px { position: fixed; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; pointer-events: none; opacity: .7; }
+
+.crumbs { position: fixed; top: 1rem; left: 1.5rem; font-size: .85rem; z-index: 2; }
+.crumbs ol { list-style: none; padding: 0; display: flex; gap: .5rem; }
+.crumbs li + li::before { content: "›"; margin-right: .5rem; color: var(--muted); }
+.crumbs a { color: var(--muted); text-decoration: none; }
+.crumbs a:hover, .crumbs a[aria-current] { color: var(--accent); }
+
+/* The window: centred, fixed size, never bigger than the viewport */
+.window {
+  position: relative; z-index: 1;
+  width: min(940px, 100%); height: min(620px, 100%);
+  display: grid; grid-template-columns: 240px 1fr;
+  background: var(--panel);
+  border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--panel) 60%, transparent), 0 30px 80px rgb(0 0 0 / .45);
+  overflow: hidden;
+  animation: rise .6s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+
+.cover-col { padding: 1.75rem 1.5rem; display: flex; flex-direction: column; gap: 1rem; border-right: 1px solid var(--line); background: linear-gradient(var(--bg2), transparent 70%); }
+.cover {
+  aspect-ratio: 2/3; border-radius: 4px 8px 8px 4px; position: relative; overflow: hidden;
+  background: linear-gradient(160deg, var(--cover1), var(--cover2));
+  box-shadow: 6px 8px 0 rgb(0 0 0 / .3), inset 6px 0 0 rgb(0 0 0 / .25);
+  display: flex; flex-direction: column; justify-content: flex-end; padding: 1rem; color: #fff;
+}
+.cover-sun { position: absolute; top: 18%; left: 50%; width: 54px; height: 54px; margin-left: -27px; border-radius: 50%; background: #fff; opacity: .85; mix-blend-mode: overlay; }
+.cover-title { font-family: var(--font-head); font-size: 2rem; letter-spacing: .15em; position: relative; }
+.cover-author { font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; opacity: .85; position: relative; }
+
+.buy { display: block; text-align: center; padding: .7rem; border-radius: 8px; background: var(--accent); color: var(--bg); font-weight: 700; text-decoration: none; transition: transform .15s; }
+[data-mode="light"] .buy { color: #fff; }
+.buy:hover { transform: translateY(-2px); }
+.buy:focus-visible, .scroll:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.note { font-size: .72rem; color: var(--muted); line-height: 1.4; }
+
+.reader { display: flex; flex-direction: column; min-height: 0; }
+.head { padding: 1.75rem 2.25rem 1.1rem; border-bottom: 1px solid var(--line); }
+h1 { font-family: var(--font-head); font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1; letter-spacing: .02em; }
+.byline { color: var(--muted); margin-top: .35rem; font-style: italic; }
+.tagline { margin-top: .7rem; color: var(--accent); font-family: var(--font-head); font-size: 1.05rem; }
+
+/* The only scroller on the page */
+.scroll {
+  flex: 1; min-height: 0; overflow-y: auto; padding: 1.25rem 2.25rem 2rem;
+  scrollbar-color: var(--accent) transparent; scrollbar-width: thin;
+  mask-image: linear-gradient(transparent 0, #000 14px, #000 calc(100% - 22px), transparent 100%);
+}
+section + section { margin-top: 1.9rem; }
+
+/* Section headers: diamond numeral + small-caps label + fading rule */
+h2 { display: flex; align-items: center; gap: .95rem; margin-bottom: .8rem; font-family: var(--font-head); font-weight: 400; }
+h2 .num {
+  flex: none; width: 1.9rem; height: 1.9rem; display: grid; place-items: center;
+  font-size: .8rem; color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent); border-radius: 3px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+h2 .label { font-size: .95rem; letter-spacing: .16em; text-transform: uppercase; white-space: nowrap; }
+h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--accent), transparent); }
+p { line-height: 1.7; font-size: 1.02rem; }
+p + p { margin-top: .7rem; }
+
+.controls { position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; gap: .75rem; align-items: center; font: .8rem system-ui, sans-serif; color: var(--muted); background: var(--panel); border: 1px solid var(--line); border-radius: 999px; padding: .4rem .9rem; }
+.controls select, .controls button { font: inherit; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: .25rem .5rem; cursor: pointer; }
+
+@media (max-width: 1100px) { .window { width: min(860px, 100%); grid-template-columns: 200px 1fr; } .head, .scroll { padding-inline: 1.5rem; } }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }

@@ -13,6 +13,7 @@
     "db:up": "docker compose up -d --wait db",
     "db:local": "node scripts/local-db.mjs",
     "assets:scene": "tsx scripts/make-scene-assets.mjs",
+    "assets:book": "tsx scripts/make-book-asset.mjs",
     "covers:fetch": "tsx scripts/covers/cli.ts",
     "content": "tsx scripts/content/cli.ts",
     "postinstall": "prisma generate"

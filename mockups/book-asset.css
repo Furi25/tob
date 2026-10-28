@@ -1,0 +1,98 @@
+/*
+ * The window IS the user's asset: docs/scenes/bookbg.png (1376x768, book occupies x 215-1175, y 80-728).
+ * The stage is cropped to that book area (960x648) via background-size/position, and the two text areas
+ * are positioned in percentages of the cropped stage, so everything scales together.
+ */
+:root {
+  --font-head: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  --font-body: "Palatino Linotype", Palatino, Georgia, serif;
+  --font-retro: ui-monospace, Consolas, "Courier New", monospace;
+}
+/* Per-book style: accent/ink plus a tint applied to the asset itself (leather and paper) */
+[data-book="dune"]   { --ink:#3a2410; --muted:#7a5a30; --accent:#8a3f0c; --c1:#e49a3d; --c2:#6b2c0e; --deep:#3f1f08; --btn-ink:#fff6dc; --tint:opacity(1); }
+[data-book="1984"]   { --ink:#25221d; --muted:#6b665c; --accent:#b8201b; --c1:#55585a; --c2:#b8201b; --deep:#1d1f21; --btn-ink:#fff; --tint:grayscale(.85) contrast(1.05); }
+[data-book="circus"] { --ink:#1c1414; --muted:#6a5a56; --accent:#b3141f; --c1:#fdfdfd; --c2:#b3141f; --deep:#070304; --btn-ink:#fff; --tint:grayscale(.7) sepia(.25) hue-rotate(-25deg) saturate(1.4) brightness(.92); }
+
+* { box-sizing: border-box; margin: 0; }
+html, body { height: 100%; overflow: hidden; } /* the page never scrolls */
+body {
+  background: #5a3b26 url("../public/bookshop/bookshop@v1-2064.webp") center / cover no-repeat;
+  display: grid; place-items: center; padding: 2.75rem 1rem 3.5rem;
+}
+body::before { content: ""; position: fixed; inset: 0; pointer-events: none; transition: background .5s;
+  background: radial-gradient(90% 80% at 50% 50%, rgb(20 10 4 / .08), rgb(20 10 4 / .4)); }
+[data-mode="dark"] body::before { background: radial-gradient(70% 70% at 50% 50%, rgb(255 190 90 / .08), rgb(8 4 12 / .75)); }
+#px { position: fixed; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; pointer-events: none; z-index: 3; }
+
+.crumbs { position: fixed; top: .9rem; left: 1.4rem; z-index: 2; font: .8rem var(--font-retro); }
+.crumbs ol { list-style: none; padding: 0; display: flex; gap: .6rem; }
+.crumbs li + li::before { content: "›"; margin-right: .6rem; color: #d1bba0; }
+.crumbs a { color: #ffe5b2; text-decoration: none; text-shadow: 1px 1px 0 #1f140e; }
+.crumbs a:hover, .crumbs a[aria-current] { color: #ffd590; }
+
+/* Largest 960:648 box that fits the viewport (minus chrome); cq units size everything inside */
+.stage {
+  position: relative; z-index: 1;
+  width: min(100%, calc((100vh - 6.25rem) * 960 / 648));
+  width: min(100%, calc((100dvh - 6.25rem) * 960 / 648));
+  aspect-ratio: 960 / 648;
+  container-type: size;
+  animation: open .6s steps(6) both;
+}
+@keyframes open { from { transform: scale(.85); opacity: 0; } }
+.art {
+  position: absolute; inset: 0;
+  background: url("../docs/scenes/bookbg.png") 51.7% 66.7% / 143.33% auto no-repeat;
+  filter: url(#key-checker) var(--tint) drop-shadow(0 1.6cqw 1.4cqw rgb(0 0 0 / .55));
+}
+[data-mode="dark"] .art { filter: url(#key-checker) var(--tint) brightness(.78) drop-shadow(0 1.6cqw 1.4cqw rgb(0 0 0 / .6)); }
+
+/* Page boxes, as % of the cropped stage (left page x 268-685, right 700-1120, y 105-640 of the source) */
+.page { position: absolute; top: 5.2%; height: 81%; display: flex; flex-direction: column; min-height: 0; color: var(--ink); font-family: var(--font-body); }
+.left  { left: 7.4%;  width: 40.4%; padding: 1.2cqw 1.4cqw 0 1.6cqw; }
+.right { left: 52.6%; width: 39.2%; padding: 1.2cqw 1.8cqw 0 1.4cqw; }
+
+.plate-wrap { flex: 1; min-height: 0; display: grid; place-items: center; }
+.plate { height: 100%; max-width: 100%; aspect-ratio: 2/3; position: relative; overflow: hidden;
+  background: linear-gradient(170deg, var(--c1), var(--c2));
+  box-shadow: 0 0 0 .3cqw var(--deep), .5cqw .6cqw 0 .3cqw rgb(0 0 0 / .25); }
+.sun { position: absolute; top: 16%; left: 50%; width: 22%; aspect-ratio: 1; margin-left: -11%; background: #fff; border-radius: 50%; opacity: .9; }
+.dunes { position: absolute; inset: auto 0 0 0; height: 42%; background: var(--deep); clip-path: polygon(0 40%, 18% 22%, 38% 44%, 60% 15%, 80% 38%, 100% 20%, 100% 100%, 0 100%); }
+.spark { position: absolute; width: .4cqw; height: .4cqw; background: #fff; animation: twinkle 2.4s steps(1) infinite; }
+.s1 { top: 12%; left: 18%; } .s2 { top: 30%; left: 80%; animation-delay: .8s; } .s3 { top: 52%; left: 30%; animation-delay: 1.6s; }
+@keyframes twinkle { 0%, 60% { opacity: 0; } 61%, 100% { opacity: 1; box-shadow: .4cqw 0 #fff, -.4cqw 0 #fff, 0 .4cqw #fff, 0 -.4cqw #fff; } }
+
+.titleblock { text-align: center; padding-top: 1.2cqw; }
+h1 { font-family: var(--font-head); font-size: clamp(1.4rem, 3.6cqw, 3rem); line-height: 1; letter-spacing: .12em; text-transform: uppercase; }
+.byline { margin-top: .5cqw; font-style: italic; color: var(--muted); font-size: clamp(.8rem, 1.4cqw, 1.2rem); }
+.tagline { margin-top: .6cqw; font-family: var(--font-head); color: var(--accent); font-size: clamp(.8rem, 1.4cqw, 1.2rem); }
+.tagline::before, .tagline::after { content: "❦"; margin: 0 .5em; opacity: .7; }
+
+.buyrow { margin: 1.2cqw 0 1.6cqw; display: flex; align-items: center; gap: 1.2cqw; }
+.buy { flex: none; padding: .8cqw 1.5cqw; background: var(--accent); color: var(--btn-ink); font: 700 clamp(.7rem, 1.2cqw, 1rem) var(--font-retro); text-decoration: none; letter-spacing: .06em;
+  box-shadow: 0 0 0 .25cqw var(--deep), .35cqw .35cqw 0 .25cqw var(--deep); transition: transform .12s steps(2), box-shadow .12s steps(2); }
+.buy:hover { transform: translate(.25cqw, .25cqw); box-shadow: 0 0 0 .25cqw var(--deep), .1cqw .1cqw 0 .25cqw var(--deep); }
+.buy:focus-visible, .scroll:focus-visible { outline: 3px dashed var(--accent); outline-offset: 3px; }
+.note { font-size: clamp(.6rem, .95cqw, .8rem); line-height: 1.35; color: var(--muted); }
+
+.running { text-align: center; font: clamp(.55rem, .9cqw, .75rem) var(--font-retro); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); padding-bottom: .7cqw; border-bottom: 1px solid color-mix(in srgb, var(--muted) 45%, transparent); }
+
+/* The only scroller on the page: text of the right-hand page */
+.scroll { flex: 1; min-height: 0; overflow-y: auto; padding: 1.4cqw 1cqw 1.4cqw 0; margin-right: -.6cqw;
+  scrollbar-width: thin; scrollbar-color: var(--accent) transparent;
+  mask-image: linear-gradient(transparent 0, #000 10px, #000 calc(100% - 22px), transparent 100%); }
+.scroll section + section { margin-top: 2.6cqw; }
+
+h2 { text-align: center; margin-bottom: 1.1cqw; font-family: var(--font-head); font-weight: 400; }
+h2 small { display: block; font: clamp(.55rem, .85cqw, .72rem) var(--font-retro); letter-spacing: .3em; text-transform: uppercase; color: var(--accent); margin-bottom: .3cqw; }
+h2 span { display: block; font-size: clamp(1.1rem, 2.1cqw, 1.8rem); font-style: italic; }
+h2::after { content: "◆"; display: block; margin-top: .6cqw; font-size: .6rem; line-height: 1; color: var(--accent);
+  background: linear-gradient(90deg, transparent, var(--accent) 20%, var(--accent) 44%, transparent 44%, transparent 56%, var(--accent) 56%, var(--accent) 80%, transparent) center / 100% 1px no-repeat; }
+p { line-height: 1.7; font-size: clamp(.85rem, 1.5cqw, 1.3rem); text-align: justify; hyphens: auto; }
+p + p { margin-top: .9cqw; }
+.drop::first-letter { float: left; font: 400 3.6em/.85 var(--font-head); padding: .06em .1em 0 0; color: var(--accent); }
+
+.controls { position: fixed; bottom: .8rem; left: 50%; transform: translateX(-50%); z-index: 4; display: flex; gap: .75rem; align-items: center; font: .75rem var(--font-retro); color: #ffe5b2; background: rgb(43 28 18 / .92); border: 1px solid #b68953; box-shadow: 3px 3px 0 #0009; padding: .35rem .8rem; }
+.controls select, .controls button { font: inherit; background: #1f140e; color: #ffe5b2; border: 1px solid #b68953; padding: .2rem .45rem; cursor: pointer; }
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } .spark { opacity: 1; } }
