@@ -1,5 +1,7 @@
 # Bookshop Display
 
+> The 1920px width cap in this spec was removed; see [bookshop-scene-scaling.md](bookshop-scene-scaling.md).
+
 ## Goal
 
 The landing page becomes one illustrated, pixel-art bookshop scene. Twenty-five books are on display around the room: on shelves, a low table, a display stand and the counter. Each of those books is a real link to its detail page at `/books/[slug]`. A reader browses by looking around the room. Hovering or focusing a book shows its title and author, and clicking opens it. This keeps the discovery-first goal from [popular-books-discovery.md](popular-books-discovery.md) but replaces its editorial card grid with a single, memorable scene. The approved direction is the mockup at `mockups/bookstore-display/`. This spec covers how to build it properly in `src/`. The mockup's internals carry no weight. Only its look and interaction model do.

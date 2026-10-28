@@ -158,7 +158,8 @@ describe.each(scenes.map((s) => [s.id, s] as const))("scene %s", (_id, scene) =>
 
   // Geometry only: CSS px of each hotspot's rectangle at a given scene width, then BD #13's rule.
   // The e2e spec repeats the shown/hidden half in a browser (tests/e2e/multiple-scenes.spec.ts).
-  it.each([808, 1280, 1920])("#25 at a scene width of %ipx every hotspot meets WCAG 2.5.8 (as BD #13)", (sceneWidth) => {
+  // 2400 and 4988: bookshop-scene-scaling.md #9 (no width cap). Hotspots are percentages, so these are regression guards.
+  it.each([808, 1280, 1920, 2400, 4988])("#25 at a scene width of %ipx every hotspot meets WCAG 2.5.8 (as BD #13)", (sceneWidth) => {
     const sceneHeight = (sceneWidth * size.height) / size.width;
     const targets = scene.hotspots.map((h) => ({
       name: `slot ${h.slot}`,

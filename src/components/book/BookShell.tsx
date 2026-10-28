@@ -12,7 +12,7 @@ const BACKDROP = `url(${artworkPath(DEFAULT_SCENE, DEFAULT_SCENE.artwork.widths[
 
 const SRC_SET = OPEN_BOOK.widths.map((w) => `${openBookPath(w)} ${w}w`).join(", ");
 // The stage's width rule (book.module.css): the smaller of the viewport and the free height times the ratio.
-const SIZES = `min(1920px, 100vw, calc((100vh - 5.5rem) * ${OPEN_BOOK.size.width} / ${OPEN_BOOK.size.height}))`;
+const SIZES = `min(100vw, calc((100vh - 5.5rem) * ${OPEN_BOOK.size.width} / ${OPEN_BOOK.size.height}))`;
 
 const pageVars = (page: { left: number; top: number; width: number; height: number }) =>
   ({

@@ -28,11 +28,10 @@ const SCENE_LINKS = `${SCENE} a[href^="/books/"]`;
 const MIN_SCENE_FOR_HOTSPOTS = 808;
 const SIDE_PADDING = 32;
 const CHROME = 96;
-const SCENE_MAX_WIDTH = 1920;
 const MIN_MARGIN_PX = 1;
 
 const DESKTOP: Viewport = { width: 1440, height: 900 };
-const WIDE: Viewport = { width: 1952, height: 1200 }; // scene is its full 1920px
+const WIDE: Viewport = { width: 1952, height: 1200 }; // width-limited: the scene is 1920px (no cap; see bookshop-scene-scaling.md)
 
 // BD #36: the viewports where the page must never scroll.
 const FIT_VIEWPORTS: Viewport[] = [
@@ -87,7 +86,7 @@ const sampleSlots = (scene: Scene): number[] => {
   return [1, Math.ceil(n / 2), n];
 };
 const expectedSceneWidth = (scene: Scene, v: Viewport) =>
-  Math.min(v.width - SIDE_PADDING, (v.height - CHROME) * ratioOf(scene), SCENE_MAX_WIDTH);
+  Math.min(v.width - SIDE_PADDING, (v.height - CHROME) * ratioOf(scene));
 const viewportFor = (width: number): Viewport => ({ width, height: width < 1024 ? 1024 : 900 });
 
 async function boxOf(locator: Locator, what: string): Promise<Box> {

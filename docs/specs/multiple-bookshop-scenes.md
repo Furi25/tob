@@ -1,5 +1,7 @@
 # Multiple Bookshop Scenes
 
+> The 1920px width cap in this spec was removed; see [bookshop-scene-scaling.md](bookshop-scene-scaling.md).
+
 ## Goal
 
 A reader can visit more than one illustrated store. Each store is its own pixel-art picture with its own set of clickable books in its own places, and every book still links to `/books/[slug]`. Today the landing page has exactly one picture and one hard-coded list of 25 hotspots. After this ships, a picture and its hotspots form a **scene**, new scenes are added by adding data and artwork (not by changing components), and readers move between scenes with a small switcher above the picture. The look and behaviour of a scene is the one in [bookshop-display.md](bookshop-display.md): this spec only generalises what that spec hard-codes for one picture.

@@ -3,7 +3,8 @@
 // Criteria 13, 14 and 26 for width-limited windows are still covered by tests/e2e/bookshop-display.spec.ts.
 //
 // The rule under test, in CSS px:
-//   scene width = min(viewport width − 32, (viewport height − 96) × 2752/1536, 1920)
+//   scene width = min(viewport width − 32, (viewport height − 96) × 2752/1536)
+// (no 1920px cap: see docs/specs/bookshop-scene-scaling.md)
 // where 96 = the 64px toolbar row + the 32px bottom padding. The hotspots show only while the scene is at
 // least 808px wide (840 − 2×16), measured on the scene, not on the viewport.
 //
@@ -158,13 +159,13 @@ test.describe("the scene fills the window", () => {
     });
   }
 
-  // The same rule at more windows: height-limited, width-limited and capped.
+  // The same rule at more windows: height-limited and width-limited (no cap; the wide ones are in bookshop-scene-scaling.spec.ts).
   const more: Viewport[] = [
     { width: 1280, height: 720 },
     { width: 1024, height: 768 }, // width-limited
     { width: 1440, height: 900 }, // width-limited, only just
     { width: 1952, height: 1100 }, // height-limited, 1799px
-    { width: 1952, height: 1200 }, // capped at 1920px
+    { width: 1952, height: 1200 }, // width-limited at 1920px (not a cap)
     { width: 812, height: 375 }, // landscape phone
   ];
 

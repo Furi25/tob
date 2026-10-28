@@ -35,7 +35,7 @@ type Box = { x: number; y: number; width: number; height: number };
 type WithShape = { shape?: readonly Point[] };
 
 // The scene is limited by the window height too (spec: Scales to fit the window), so the viewport is tall
-// enough, (1200 − 96) × 2752/1536 ≥ 1920, for the scene to be its full 1920px, where small books are as large as they get.
+// enough, (1200 − 96) × 2752/1536 ≥ 1920, for the scene to be 1920px (limited by width; there is no cap), where small books are as large as they get.
 const DESKTOP = { width: 1952, height: 1200 } as const;
 const SCENE = "[data-bookshop-scene]";
 const SCENE_IMG = `img[srcset*="/bookshop/${DEFAULT_SCENE.id}@"]`;

@@ -1,5 +1,7 @@
 # Book Detail Page: Open Book Window
 
+> The 1920px stage cap in this spec was removed; see [bookshop-scene-scaling.md](bookshop-scene-scaling.md).
+
 ## Goal
 
 The book detail page at `/books/[slug]` becomes a single non-scrolling view: an open old book, centred over the still-visible bookshop. The left page holds the cover, title, author, tagline and buy button. The right page holds the editorial text, and that text, and only that text, scrolls inside the page. Section headings are redesigned as chapter headings. Every book uses the same book image, and a book can change only a few colours. The structure leaves room for fuller per-book styles and pixel animations later.

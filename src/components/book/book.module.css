@@ -49,7 +49,6 @@
   position: relative;
   width: min(100%, calc((100vh - var(--chrome)) * var(--art-w) / var(--art-h)));
   width: min(100%, calc((100dvh - var(--chrome)) * var(--art-w) / var(--art-h)));
-  max-width: 1920px;
   aspect-ratio: var(--art-w) / var(--art-h);
   container-type: size;
   --fs-body: clamp(0.75rem, 1.4cqw, 1.2rem);

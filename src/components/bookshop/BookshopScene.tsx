@@ -8,9 +8,9 @@ import styles from "./bookshop.module.css";
 const srcSetOf = (scene: Scene) => scene.artwork.widths.map((w) => `${artworkPath(scene, w)} ${w}w`).join(", ");
 // Matches the scene's width rule (bookshop.module.css): the smallest of the content area (viewport minus
 // 2×16px padding), the free height times the artwork's ratio (viewport height minus the 96px page chrome in
-// page.module.css), and 1920px.
+// page.module.css). There is no width cap (docs/specs/bookshop-scene-scaling.md).
 const sizesOf = ({ artwork }: Scene) =>
-  `min(1920px, calc(100vw - 32px), calc((100vh - 96px) * ${artwork.size.width} / ${artwork.size.height}))`;
+  `min(calc(100vw - 32px), calc((100vh - 96px) * ${artwork.size.width} / ${artwork.size.height}))`;
 
 const rectVars = ({ rect }: Hotspot) =>
   ({

@@ -8,7 +8,6 @@
    */
   width: min(100%, calc((100vh - var(--page-chrome, 96px)) * var(--art-w) / var(--art-h)));
   width: min(100%, calc((100dvh - var(--page-chrome, 96px)) * var(--art-w) / var(--art-h)));
-  max-width: 1920px;
   margin-inline: auto;
   aspect-ratio: var(--art-w) / var(--art-h);
   /* The hotspots hide by the scene's own width (see the container query below), not the viewport's. */

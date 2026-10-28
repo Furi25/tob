@@ -47,7 +47,7 @@ const EMPTY_MESSAGE = "The display is being rearranged. Check back soon.";
 const PUBLIC_BOOKSHOP = path.join(process.cwd(), "public", "bookshop");
 const SERVED_PATH = new RegExp(`^/bookshop/scene@${ARTWORK_VERSION}-(1376|2064|2752)\\.webp$`);
 const BREAKPOINT = 840;
-const SCENE_MAX_WIDTH = 1920;
+const WIDE_WINDOW_WIDTH = 1920; // a viewport width sampled by #13; there is no scene width cap
 
 const VIEWPORTS = {
   1440: { width: 1440, height: 900 },
@@ -611,7 +611,7 @@ test.describe("label stays inside the scene", () => {
 test.describe("touch-target size", () => {
   // Hotspots scale with the scene, so the breakpoint width is the hardest case. The wider
   // widths sample "every viewport width at or above the breakpoint".
-  for (const width of [BREAKPOINT, 1024, 1280, 1440, SCENE_MAX_WIDTH]) {
+  for (const width of [BREAKPOINT, 1024, 1280, 1440, WIDE_WINDOW_WIDTH]) {
     test(`#13 at ${width}px every hotspot meets WCAG 2.5.8 (24×24 or the 24px spacing exception)`, async ({
       page,
     }) => {
@@ -746,15 +746,18 @@ test.describe("scene scales to fit", () => {
     });
   }
 
-  test("#26 at 2560px the scene is 1920px wide and centred", async ({ page }) => {
+  // Amended by bookshop-scene-scaling.md #2: no 1920px cap; height limits the scene at 2560×1440.
+  test("#26 at 2560px the scene is (1440 − 96) × W/H wide (about 2408px, not 1920px) and centred", async ({ page }) => {
     await page.setViewportSize({ width: 2560, height: 1440 });
     await page.goto("/");
     await expect(page.locator(SCENE_IMG)).toBeVisible();
     const scene = await sceneBox(page);
     const pageWidth = await page.evaluate(() => document.documentElement.clientWidth);
+    const expected = (1440 - 96) / ratio;
 
-    expect(Math.abs(scene.width - SCENE_MAX_WIDTH), `scene width ${scene.width}`).toBeLessThanOrEqual(1);
-    expect(Math.abs(scene.height - SCENE_MAX_WIDTH * ratio), "height follows 2752:1536").toBeLessThanOrEqual(1);
+    expect(Math.abs(scene.width - expected), `scene width ${scene.width}, expected ${expected}`).toBeLessThanOrEqual(1);
+    expect(scene.width, "no 1920px cap").toBeGreaterThan(1920);
+    expect(Math.abs(scene.height - expected * ratio), "height follows 2752:1536").toBeLessThanOrEqual(1);
     expect(Math.abs(scene.x + scene.width / 2 - pageWidth / 2), "scene centre vs page centre").toBeLessThanOrEqual(1);
   });
 });
